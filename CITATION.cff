@@ -9,8 +9,8 @@ authors:
 url: "https://github.com/jqbit/TAUT"
 repository-code: "https://github.com/jqbit/TAUT"
 license: MIT
-version: "0.13"
-date-released: "2026-04-16"
+version: "0.13.1"
+date-released: "2026-04-24"
 keywords:
   - prompt-engineering
   - llm

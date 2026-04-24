@@ -5,15 +5,15 @@
 **TAUT** *(taut, adj.)* — pulled tight; not slack.
 *Also a backronym: **T**erse **A**gent **U**tterance **T**uning.*
 
-### A one-file system prompt that cuts AI coding-agent output by 80%
+### A one-file system prompt that cuts AI coding-agent output by ~80%
 
 No fine-tuning. No API change. No harness change. **Just one Markdown file** dropped into your agent's global instruction slot.
 
 [![release](https://img.shields.io/github/v/release/jqbit/TAUT?style=flat-square&color=blue&label=release)](https://github.com/jqbit/TAUT/releases)
 [![license](https://img.shields.io/badge/license-MIT-green?style=flat-square)](./LICENSE)
 [![agents](https://img.shields.io/badge/agents-9-orange?style=flat-square)](#-supported-agents)
-[![reduction](https://img.shields.io/badge/output_reduction-80%25-red?style=flat-square)](#-benchmark)
-[![compliance](https://img.shields.io/badge/avg_compliance-96.7%25-brightgreen?style=flat-square)](#-benchmark)
+[![reduction](https://img.shields.io/badge/output_reduction-~80%25_(v0.13)-red?style=flat-square)](#-benchmark)
+[![compliance](https://img.shields.io/badge/avg_compliance-96.7%25_(v0.13)-brightgreen?style=flat-square)](#-benchmark)
 [![stars](https://img.shields.io/github/stars/jqbit/TAUT?style=flat-square&color=yellow)](https://github.com/jqbit/TAUT/stargazers)
 [![last commit](https://img.shields.io/github/last-commit/jqbit/TAUT?style=flat-square)](https://github.com/jqbit/TAUT/commits/main)
 
@@ -21,17 +21,21 @@ No fine-tuning. No API change. No harness change. **Just one Markdown file** dro
 
 </div>
 
+> **Status (v0.13.1):** `TAUT.md` was consolidated to a single 1497-char ultra-compact form. All v0.13 rules are preserved (anti-restate, anti-metadata, last-character, diff-fence, all 14 budget caps), but the prompt body itself shrank from 9 377 → 1 497 chars. **The benchmark numbers below are from the v0.13 full-form prompt; v0.13.1 has not yet been re-bench-tested.** Behaviour is expected to be near-identical because the rules are unchanged, but treat the headline figures as approximate until the re-bench lands. See [`CHANGELOG.md`](./CHANGELOG.md#0131--2026-04-24).
+
 ---
 
 ## ⚡ Why TAUT?
 
 Modern AI coding agents are RLHF-trained to be *helpful*, which makes them **verbose by default** — preambles, hedges, "when to use which" closers, security postscripts you didn't ask for. Output tokens are 3–5× the price of input. Latency scales linearly with output length. Reading 600 tokens to extract one command costs the most expensive token rate of all: **your attention**.
 
-**TAUT fixes that.** One file. Nine agents. Eighty-percent reduction. Production-safe register.
+**TAUT fixes that.** One file. Nine agents. ~80 % output reduction (v0.13 bench). Production-safe register.
 
 ---
 
 ## 📊 Benchmark
+
+> Numbers below measured against the **v0.13 full-form `TAUT.md` (9 377 chars)**. The current `TAUT.md` (v0.13.1, 1 497 chars) preserves every rule but has not been re-bench-tested yet. Treat these figures as the established floor for the rule set, not as a guarantee for the new file.
 
 | Agent | Prose tokens (no TAUT) | With TAUT v0.13 | Δ % | Compliance |
 |---|---:|---:|---:|---:|

@@ -4,6 +4,8 @@
 >
 > Companion to [`PHILOSOPHY.md`](./PHILOSOPHY.md) (the design rationale) and [`EVOLUTION.md`](./EVOLUTION.md) (the version-by-version narrative). This document is for the data nerds.
 
+> ⚠ **Scope notice:** All numbers in this file refer to the **v0.13 full-form `TAUT.md` (9 377 chars)**. The current `TAUT.md` shipped on `main` is **v0.13.1 (1 497 chars)** — same rules, far smaller body. v0.13.1 has not been re-bench-tested; if you reproduce these figures against the current file, expect approximately the same compression and compliance, but the exact deltas are unverified.
+
 ---
 
 ## Table of contents
