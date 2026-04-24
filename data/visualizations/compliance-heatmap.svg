@@ -1,0 +1,371 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 820 604" font-family="ui-sans-serif,system-ui,sans-serif" font-size="13">
+<style>
+.title{font-size:18px;font-weight:600}
+.gridline{stroke:#e5e7eb;stroke-width:1}
+.bar-base{fill:#ef4444}
+.bar-taut{fill:#22c55e}
+.label{fill:#1f2937}
+.label-sm{fill:#6b7280;font-size:11px}
+.pass{fill:#22c55e}
+.fail{fill:#ef4444}
+.warn{fill:#f59e0b}
+.gone{fill:#9ca3af}
+</style>
+<text x="410" y="24" text-anchor="middle" class="title">TAUT v0.14 — compliance heatmap (cell-level)</text>
+<text x="152" y="68" text-anchor="middle" class="label-sm">Q01</text>
+<text x="196" y="68" text-anchor="middle" class="label-sm">Q02</text>
+<text x="240" y="68" text-anchor="middle" class="label-sm">Q03</text>
+<text x="284" y="68" text-anchor="middle" class="label-sm">Q04</text>
+<text x="328" y="68" text-anchor="middle" class="label-sm">Q05</text>
+<text x="372" y="68" text-anchor="middle" class="label-sm">Q06</text>
+<text x="416" y="68" text-anchor="middle" class="label-sm">Q07</text>
+<text x="460" y="68" text-anchor="middle" class="label-sm">Q08</text>
+<text x="504" y="68" text-anchor="middle" class="label-sm">Q09</text>
+<text x="548" y="68" text-anchor="middle" class="label-sm">Q10</text>
+<text x="592" y="68" text-anchor="middle" class="label-sm">Q11</text>
+<text x="636" y="68" text-anchor="middle" class="label-sm">Q12</text>
+<text x="680" y="68" text-anchor="middle" class="label-sm">Q13</text>
+<text x="724" y="68" text-anchor="middle" class="label-sm">Q14</text>
+<text x="768" y="68" text-anchor="middle" class="label-sm">Q15</text>
+<text x="122" y="106" text-anchor="end" class="label">claude</text>
+<rect x="131" y="81" width="40" height="40" class="gone"/>
+<text x="152" y="107" text-anchor="middle" fill="white" font-weight="700">—</text>
+<rect x="175" y="81" width="40" height="40" class="pass"/>
+<text x="196" y="107" text-anchor="middle" fill="white" font-weight="700">✓</text>
+<rect x="219" y="81" width="40" height="40" class="pass"/>
+<text x="240" y="107" text-anchor="middle" fill="white" font-weight="700">✓</text>
+<rect x="263" y="81" width="40" height="40" class="pass"/>
+<text x="284" y="107" text-anchor="middle" fill="white" font-weight="700">✓</text>
+<rect x="307" y="81" width="40" height="40" class="pass"/>
+<text x="328" y="107" text-anchor="middle" fill="white" font-weight="700">✓</text>
+<rect x="351" y="81" width="40" height="40" class="fail"/>
+<text x="372" y="107" text-anchor="middle" fill="white" font-weight="700">✗</text>
+<rect x="395" y="81" width="40" height="40" class="pass"/>
+<text x="416" y="107" text-anchor="middle" fill="white" font-weight="700">✓</text>
+<rect x="439" y="81" width="40" height="40" class="pass"/>
+<text x="460" y="107" text-anchor="middle" fill="white" font-weight="700">✓</text>
+<rect x="483" y="81" width="40" height="40" class="pass"/>
+<text x="504" y="107" text-anchor="middle" fill="white" font-weight="700">✓</text>
+<rect x="527" y="81" width="40" height="40" class="pass"/>
+<text x="548" y="107" text-anchor="middle" fill="white" font-weight="700">✓</text>
+<rect x="571" y="81" width="40" height="40" class="pass"/>
+<text x="592" y="107" text-anchor="middle" fill="white" font-weight="700">✓</text>
+<rect x="615" y="81" width="40" height="40" class="pass"/>
+<text x="636" y="107" text-anchor="middle" fill="white" font-weight="700">✓</text>
+<rect x="659" y="81" width="40" height="40" class="fail"/>
+<text x="680" y="107" text-anchor="middle" fill="white" font-weight="700">✗</text>
+<rect x="703" y="81" width="40" height="40" class="pass"/>
+<text x="724" y="107" text-anchor="middle" fill="white" font-weight="700">✓</text>
+<rect x="747" y="81" width="40" height="40" class="pass"/>
+<text x="768" y="107" text-anchor="middle" fill="white" font-weight="700">✓</text>
+<text x="122" y="150" text-anchor="end" class="label">codex</text>
+<rect x="131" y="125" width="40" height="40" class="fail"/>
+<text x="152" y="151" text-anchor="middle" fill="white" font-weight="700">✗</text>
+<rect x="175" y="125" width="40" height="40" class="fail"/>
+<text x="196" y="151" text-anchor="middle" fill="white" font-weight="700">✗</text>
+<rect x="219" y="125" width="40" height="40" class="fail"/>
+<text x="240" y="151" text-anchor="middle" fill="white" font-weight="700">✗</text>
+<rect x="263" y="125" width="40" height="40" class="fail"/>
+<text x="284" y="151" text-anchor="middle" fill="white" font-weight="700">✗</text>
+<rect x="307" y="125" width="40" height="40" class="fail"/>
+<text x="328" y="151" text-anchor="middle" fill="white" font-weight="700">✗</text>
+<rect x="351" y="125" width="40" height="40" class="fail"/>
+<text x="372" y="151" text-anchor="middle" fill="white" font-weight="700">✗</text>
+<rect x="395" y="125" width="40" height="40" class="fail"/>
+<text x="416" y="151" text-anchor="middle" fill="white" font-weight="700">✗</text>
+<rect x="439" y="125" width="40" height="40" class="fail"/>
+<text x="460" y="151" text-anchor="middle" fill="white" font-weight="700">✗</text>
+<rect x="483" y="125" width="40" height="40" class="pass"/>
+<text x="504" y="151" text-anchor="middle" fill="white" font-weight="700">✓</text>
+<rect x="527" y="125" width="40" height="40" class="fail"/>
+<text x="548" y="151" text-anchor="middle" fill="white" font-weight="700">✗</text>
+<rect x="571" y="125" width="40" height="40" class="fail"/>
+<text x="592" y="151" text-anchor="middle" fill="white" font-weight="700">✗</text>
+<rect x="615" y="125" width="40" height="40" class="fail"/>
+<text x="636" y="151" text-anchor="middle" fill="white" font-weight="700">✗</text>
+<rect x="659" y="125" width="40" height="40" class="fail"/>
+<text x="680" y="151" text-anchor="middle" fill="white" font-weight="700">✗</text>
+<rect x="703" y="125" width="40" height="40" class="fail"/>
+<text x="724" y="151" text-anchor="middle" fill="white" font-weight="700">✗</text>
+<rect x="747" y="125" width="40" height="40" class="fail"/>
+<text x="768" y="151" text-anchor="middle" fill="white" font-weight="700">✗</text>
+<text x="122" y="194" text-anchor="end" class="label">copilot</text>
+<rect x="131" y="169" width="40" height="40" class="gone"/>
+<text x="152" y="195" text-anchor="middle" fill="white" font-weight="700">—</text>
+<rect x="175" y="169" width="40" height="40" class="pass"/>
+<text x="196" y="195" text-anchor="middle" fill="white" font-weight="700">✓</text>
+<rect x="219" y="169" width="40" height="40" class="pass"/>
+<text x="240" y="195" text-anchor="middle" fill="white" font-weight="700">✓</text>
+<rect x="263" y="169" width="40" height="40" class="pass"/>
+<text x="284" y="195" text-anchor="middle" fill="white" font-weight="700">✓</text>
+<rect x="307" y="169" width="40" height="40" class="gone"/>
+<text x="328" y="195" text-anchor="middle" fill="white" font-weight="700">—</text>
+<rect x="351" y="169" width="40" height="40" class="pass"/>
+<text x="372" y="195" text-anchor="middle" fill="white" font-weight="700">✓</text>
+<rect x="395" y="169" width="40" height="40" class="pass"/>
+<text x="416" y="195" text-anchor="middle" fill="white" font-weight="700">✓</text>
+<rect x="439" y="169" width="40" height="40" class="pass"/>
+<text x="460" y="195" text-anchor="middle" fill="white" font-weight="700">✓</text>
+<rect x="483" y="169" width="40" height="40" class="pass"/>
+<text x="504" y="195" text-anchor="middle" fill="white" font-weight="700">✓</text>
+<rect x="527" y="169" width="40" height="40" class="pass"/>
+<text x="548" y="195" text-anchor="middle" fill="white" font-weight="700">✓</text>
+<rect x="571" y="169" width="40" height="40" class="pass"/>
+<text x="592" y="195" text-anchor="middle" fill="white" font-weight="700">✓</text>
+<rect x="615" y="169" width="40" height="40" class="pass"/>
+<text x="636" y="195" text-anchor="middle" fill="white" font-weight="700">✓</text>
+<rect x="659" y="169" width="40" height="40" class="gone"/>
+<text x="680" y="195" text-anchor="middle" fill="white" font-weight="700">—</text>
+<rect x="703" y="169" width="40" height="40" class="gone"/>
+<text x="724" y="195" text-anchor="middle" fill="white" font-weight="700">—</text>
+<rect x="747" y="169" width="40" height="40" class="gone"/>
+<text x="768" y="195" text-anchor="middle" fill="white" font-weight="700">—</text>
+<text x="122" y="238" text-anchor="end" class="label">droid</text>
+<rect x="131" y="213" width="40" height="40" class="gone"/>
+<text x="152" y="239" text-anchor="middle" fill="white" font-weight="700">—</text>
+<rect x="175" y="213" width="40" height="40" class="pass"/>
+<text x="196" y="239" text-anchor="middle" fill="white" font-weight="700">✓</text>
+<rect x="219" y="213" width="40" height="40" class="pass"/>
+<text x="240" y="239" text-anchor="middle" fill="white" font-weight="700">✓</text>
+<rect x="263" y="213" width="40" height="40" class="gone"/>
+<text x="284" y="239" text-anchor="middle" fill="white" font-weight="700">—</text>
+<rect x="307" y="213" width="40" height="40" class="gone"/>
+<text x="328" y="239" text-anchor="middle" fill="white" font-weight="700">—</text>
+<rect x="351" y="213" width="40" height="40" class="fail"/>
+<text x="372" y="239" text-anchor="middle" fill="white" font-weight="700">✗</text>
+<rect x="395" y="213" width="40" height="40" class="pass"/>
+<text x="416" y="239" text-anchor="middle" fill="white" font-weight="700">✓</text>
+<rect x="439" y="213" width="40" height="40" class="gone"/>
+<text x="460" y="239" text-anchor="middle" fill="white" font-weight="700">—</text>
+<rect x="483" y="213" width="40" height="40" class="gone"/>
+<text x="504" y="239" text-anchor="middle" fill="white" font-weight="700">—</text>
+<rect x="527" y="213" width="40" height="40" class="pass"/>
+<text x="548" y="239" text-anchor="middle" fill="white" font-weight="700">✓</text>
+<rect x="571" y="213" width="40" height="40" class="pass"/>
+<text x="592" y="239" text-anchor="middle" fill="white" font-weight="700">✓</text>
+<rect x="615" y="213" width="40" height="40" class="pass"/>
+<text x="636" y="239" text-anchor="middle" fill="white" font-weight="700">✓</text>
+<rect x="659" y="213" width="40" height="40" class="gone"/>
+<text x="680" y="239" text-anchor="middle" fill="white" font-weight="700">—</text>
+<rect x="703" y="213" width="40" height="40" class="gone"/>
+<text x="724" y="239" text-anchor="middle" fill="white" font-weight="700">—</text>
+<rect x="747" y="213" width="40" height="40" class="gone"/>
+<text x="768" y="239" text-anchor="middle" fill="white" font-weight="700">—</text>
+<text x="122" y="282" text-anchor="end" class="label">hermes</text>
+<rect x="131" y="257" width="40" height="40" class="gone"/>
+<text x="152" y="283" text-anchor="middle" fill="white" font-weight="700">—</text>
+<rect x="175" y="257" width="40" height="40" class="gone"/>
+<text x="196" y="283" text-anchor="middle" fill="white" font-weight="700">—</text>
+<rect x="219" y="257" width="40" height="40" class="fail"/>
+<text x="240" y="283" text-anchor="middle" fill="white" font-weight="700">✗</text>
+<rect x="263" y="257" width="40" height="40" class="gone"/>
+<text x="284" y="283" text-anchor="middle" fill="white" font-weight="700">—</text>
+<rect x="307" y="257" width="40" height="40" class="gone"/>
+<text x="328" y="283" text-anchor="middle" fill="white" font-weight="700">—</text>
+<rect x="351" y="257" width="40" height="40" class="gone"/>
+<text x="372" y="283" text-anchor="middle" fill="white" font-weight="700">—</text>
+<rect x="395" y="257" width="40" height="40" class="gone"/>
+<text x="416" y="283" text-anchor="middle" fill="white" font-weight="700">—</text>
+<rect x="439" y="257" width="40" height="40" class="gone"/>
+<text x="460" y="283" text-anchor="middle" fill="white" font-weight="700">—</text>
+<rect x="483" y="257" width="40" height="40" class="gone"/>
+<text x="504" y="283" text-anchor="middle" fill="white" font-weight="700">—</text>
+<rect x="527" y="257" width="40" height="40" class="gone"/>
+<text x="548" y="283" text-anchor="middle" fill="white" font-weight="700">—</text>
+<rect x="571" y="257" width="40" height="40" class="gone"/>
+<text x="592" y="283" text-anchor="middle" fill="white" font-weight="700">—</text>
+<rect x="615" y="257" width="40" height="40" class="gone"/>
+<text x="636" y="283" text-anchor="middle" fill="white" font-weight="700">—</text>
+<rect x="659" y="257" width="40" height="40" class="gone"/>
+<text x="680" y="283" text-anchor="middle" fill="white" font-weight="700">—</text>
+<rect x="703" y="257" width="40" height="40" class="gone"/>
+<text x="724" y="283" text-anchor="middle" fill="white" font-weight="700">—</text>
+<rect x="747" y="257" width="40" height="40" class="gone"/>
+<text x="768" y="283" text-anchor="middle" fill="white" font-weight="700">—</text>
+<text x="122" y="326" text-anchor="end" class="label">opencode</text>
+<rect x="131" y="301" width="40" height="40" class="gone"/>
+<text x="152" y="327" text-anchor="middle" fill="white" font-weight="700">—</text>
+<rect x="175" y="301" width="40" height="40" class="pass"/>
+<text x="196" y="327" text-anchor="middle" fill="white" font-weight="700">✓</text>
+<rect x="219" y="301" width="40" height="40" class="pass"/>
+<text x="240" y="327" text-anchor="middle" fill="white" font-weight="700">✓</text>
+<rect x="263" y="301" width="40" height="40" class="gone"/>
+<text x="284" y="327" text-anchor="middle" fill="white" font-weight="700">—</text>
+<rect x="307" y="301" width="40" height="40" class="gone"/>
+<text x="328" y="327" text-anchor="middle" fill="white" font-weight="700">—</text>
+<rect x="351" y="301" width="40" height="40" class="pass"/>
+<text x="372" y="327" text-anchor="middle" fill="white" font-weight="700">✓</text>
+<rect x="395" y="301" width="40" height="40" class="pass"/>
+<text x="416" y="327" text-anchor="middle" fill="white" font-weight="700">✓</text>
+<rect x="439" y="301" width="40" height="40" class="pass"/>
+<text x="460" y="327" text-anchor="middle" fill="white" font-weight="700">✓</text>
+<rect x="483" y="301" width="40" height="40" class="pass"/>
+<text x="504" y="327" text-anchor="middle" fill="white" font-weight="700">✓</text>
+<rect x="527" y="301" width="40" height="40" class="pass"/>
+<text x="548" y="327" text-anchor="middle" fill="white" font-weight="700">✓</text>
+<rect x="571" y="301" width="40" height="40" class="pass"/>
+<text x="592" y="327" text-anchor="middle" fill="white" font-weight="700">✓</text>
+<rect x="615" y="301" width="40" height="40" class="pass"/>
+<text x="636" y="327" text-anchor="middle" fill="white" font-weight="700">✓</text>
+<rect x="659" y="301" width="40" height="40" class="gone"/>
+<text x="680" y="327" text-anchor="middle" fill="white" font-weight="700">—</text>
+<rect x="703" y="301" width="40" height="40" class="gone"/>
+<text x="724" y="327" text-anchor="middle" fill="white" font-weight="700">—</text>
+<rect x="747" y="301" width="40" height="40" class="gone"/>
+<text x="768" y="327" text-anchor="middle" fill="white" font-weight="700">—</text>
+<text x="122" y="370" text-anchor="end" class="label">openclaw</text>
+<rect x="131" y="345" width="40" height="40" class="pass"/>
+<text x="152" y="371" text-anchor="middle" fill="white" font-weight="700">✓</text>
+<rect x="175" y="345" width="40" height="40" class="pass"/>
+<text x="196" y="371" text-anchor="middle" fill="white" font-weight="700">✓</text>
+<rect x="219" y="345" width="40" height="40" class="pass"/>
+<text x="240" y="371" text-anchor="middle" fill="white" font-weight="700">✓</text>
+<rect x="263" y="345" width="40" height="40" class="pass"/>
+<text x="284" y="371" text-anchor="middle" fill="white" font-weight="700">✓</text>
+<rect x="307" y="345" width="40" height="40" class="pass"/>
+<text x="328" y="371" text-anchor="middle" fill="white" font-weight="700">✓</text>
+<rect x="351" y="345" width="40" height="40" class="pass"/>
+<text x="372" y="371" text-anchor="middle" fill="white" font-weight="700">✓</text>
+<rect x="395" y="345" width="40" height="40" class="pass"/>
+<text x="416" y="371" text-anchor="middle" fill="white" font-weight="700">✓</text>
+<rect x="439" y="345" width="40" height="40" class="gone"/>
+<text x="460" y="371" text-anchor="middle" fill="white" font-weight="700">—</text>
+<rect x="483" y="345" width="40" height="40" class="gone"/>
+<text x="504" y="371" text-anchor="middle" fill="white" font-weight="700">—</text>
+<rect x="527" y="345" width="40" height="40" class="gone"/>
+<text x="548" y="371" text-anchor="middle" fill="white" font-weight="700">—</text>
+<rect x="571" y="345" width="40" height="40" class="gone"/>
+<text x="592" y="371" text-anchor="middle" fill="white" font-weight="700">—</text>
+<rect x="615" y="345" width="40" height="40" class="gone"/>
+<text x="636" y="371" text-anchor="middle" fill="white" font-weight="700">—</text>
+<rect x="659" y="345" width="40" height="40" class="gone"/>
+<text x="680" y="371" text-anchor="middle" fill="white" font-weight="700">—</text>
+<rect x="703" y="345" width="40" height="40" class="gone"/>
+<text x="724" y="371" text-anchor="middle" fill="white" font-weight="700">—</text>
+<rect x="747" y="345" width="40" height="40" class="gone"/>
+<text x="768" y="371" text-anchor="middle" fill="white" font-weight="700">—</text>
+<text x="122" y="414" text-anchor="end" class="label">pi</text>
+<rect x="131" y="389" width="40" height="40" class="gone"/>
+<text x="152" y="415" text-anchor="middle" fill="white" font-weight="700">—</text>
+<rect x="175" y="389" width="40" height="40" class="gone"/>
+<text x="196" y="415" text-anchor="middle" fill="white" font-weight="700">—</text>
+<rect x="219" y="389" width="40" height="40" class="pass"/>
+<text x="240" y="415" text-anchor="middle" fill="white" font-weight="700">✓</text>
+<rect x="263" y="389" width="40" height="40" class="gone"/>
+<text x="284" y="415" text-anchor="middle" fill="white" font-weight="700">—</text>
+<rect x="307" y="389" width="40" height="40" class="gone"/>
+<text x="328" y="415" text-anchor="middle" fill="white" font-weight="700">—</text>
+<rect x="351" y="389" width="40" height="40" class="pass"/>
+<text x="372" y="415" text-anchor="middle" fill="white" font-weight="700">✓</text>
+<rect x="395" y="389" width="40" height="40" class="gone"/>
+<text x="416" y="415" text-anchor="middle" fill="white" font-weight="700">—</text>
+<rect x="439" y="389" width="40" height="40" class="pass"/>
+<text x="460" y="415" text-anchor="middle" fill="white" font-weight="700">✓</text>
+<rect x="483" y="389" width="40" height="40" class="gone"/>
+<text x="504" y="415" text-anchor="middle" fill="white" font-weight="700">—</text>
+<rect x="527" y="389" width="40" height="40" class="gone"/>
+<text x="548" y="415" text-anchor="middle" fill="white" font-weight="700">—</text>
+<rect x="571" y="389" width="40" height="40" class="pass"/>
+<text x="592" y="415" text-anchor="middle" fill="white" font-weight="700">✓</text>
+<rect x="615" y="389" width="40" height="40" class="pass"/>
+<text x="636" y="415" text-anchor="middle" fill="white" font-weight="700">✓</text>
+<rect x="659" y="389" width="40" height="40" class="gone"/>
+<text x="680" y="415" text-anchor="middle" fill="white" font-weight="700">—</text>
+<rect x="703" y="389" width="40" height="40" class="gone"/>
+<text x="724" y="415" text-anchor="middle" fill="white" font-weight="700">—</text>
+<rect x="747" y="389" width="40" height="40" class="gone"/>
+<text x="768" y="415" text-anchor="middle" fill="white" font-weight="700">—</text>
+<text x="122" y="458" text-anchor="end" class="label">cline</text>
+<rect x="131" y="433" width="40" height="40" class="gone"/>
+<text x="152" y="459" text-anchor="middle" fill="white" font-weight="700">—</text>
+<rect x="175" y="433" width="40" height="40" class="pass"/>
+<text x="196" y="459" text-anchor="middle" fill="white" font-weight="700">✓</text>
+<rect x="219" y="433" width="40" height="40" class="pass"/>
+<text x="240" y="459" text-anchor="middle" fill="white" font-weight="700">✓</text>
+<rect x="263" y="433" width="40" height="40" class="gone"/>
+<text x="284" y="459" text-anchor="middle" fill="white" font-weight="700">—</text>
+<rect x="307" y="433" width="40" height="40" class="gone"/>
+<text x="328" y="459" text-anchor="middle" fill="white" font-weight="700">—</text>
+<rect x="351" y="433" width="40" height="40" class="gone"/>
+<text x="372" y="459" text-anchor="middle" fill="white" font-weight="700">—</text>
+<rect x="395" y="433" width="40" height="40" class="pass"/>
+<text x="416" y="459" text-anchor="middle" fill="white" font-weight="700">✓</text>
+<rect x="439" y="433" width="40" height="40" class="pass"/>
+<text x="460" y="459" text-anchor="middle" fill="white" font-weight="700">✓</text>
+<rect x="483" y="433" width="40" height="40" class="pass"/>
+<text x="504" y="459" text-anchor="middle" fill="white" font-weight="700">✓</text>
+<rect x="527" y="433" width="40" height="40" class="pass"/>
+<text x="548" y="459" text-anchor="middle" fill="white" font-weight="700">✓</text>
+<rect x="571" y="433" width="40" height="40" class="pass"/>
+<text x="592" y="459" text-anchor="middle" fill="white" font-weight="700">✓</text>
+<rect x="615" y="433" width="40" height="40" class="pass"/>
+<text x="636" y="459" text-anchor="middle" fill="white" font-weight="700">✓</text>
+<rect x="659" y="433" width="40" height="40" class="gone"/>
+<text x="680" y="459" text-anchor="middle" fill="white" font-weight="700">—</text>
+<rect x="703" y="433" width="40" height="40" class="gone"/>
+<text x="724" y="459" text-anchor="middle" fill="white" font-weight="700">—</text>
+<rect x="747" y="433" width="40" height="40" class="gone"/>
+<text x="768" y="459" text-anchor="middle" fill="white" font-weight="700">—</text>
+<text x="122" y="502" text-anchor="end" class="label">agent</text>
+<rect x="131" y="477" width="40" height="40" class="gone"/>
+<text x="152" y="503" text-anchor="middle" fill="white" font-weight="700">—</text>
+<rect x="175" y="477" width="40" height="40" class="gone"/>
+<text x="196" y="503" text-anchor="middle" fill="white" font-weight="700">—</text>
+<rect x="219" y="477" width="40" height="40" class="gone"/>
+<text x="240" y="503" text-anchor="middle" fill="white" font-weight="700">—</text>
+<rect x="263" y="477" width="40" height="40" class="gone"/>
+<text x="284" y="503" text-anchor="middle" fill="white" font-weight="700">—</text>
+<rect x="307" y="477" width="40" height="40" class="gone"/>
+<text x="328" y="503" text-anchor="middle" fill="white" font-weight="700">—</text>
+<rect x="351" y="477" width="40" height="40" class="pass"/>
+<text x="372" y="503" text-anchor="middle" fill="white" font-weight="700">✓</text>
+<rect x="395" y="477" width="40" height="40" class="gone"/>
+<text x="416" y="503" text-anchor="middle" fill="white" font-weight="700">—</text>
+<rect x="439" y="477" width="40" height="40" class="gone"/>
+<text x="460" y="503" text-anchor="middle" fill="white" font-weight="700">—</text>
+<rect x="483" y="477" width="40" height="40" class="gone"/>
+<text x="504" y="503" text-anchor="middle" fill="white" font-weight="700">—</text>
+<rect x="527" y="477" width="40" height="40" class="pass"/>
+<text x="548" y="503" text-anchor="middle" fill="white" font-weight="700">✓</text>
+<rect x="571" y="477" width="40" height="40" class="gone"/>
+<text x="592" y="503" text-anchor="middle" fill="white" font-weight="700">—</text>
+<rect x="615" y="477" width="40" height="40" class="gone"/>
+<text x="636" y="503" text-anchor="middle" fill="white" font-weight="700">—</text>
+<rect x="659" y="477" width="40" height="40" class="gone"/>
+<text x="680" y="503" text-anchor="middle" fill="white" font-weight="700">—</text>
+<rect x="703" y="477" width="40" height="40" class="gone"/>
+<text x="724" y="503" text-anchor="middle" fill="white" font-weight="700">—</text>
+<rect x="747" y="477" width="40" height="40" class="gone"/>
+<text x="768" y="503" text-anchor="middle" fill="white" font-weight="700">—</text>
+<text x="122" y="546" text-anchor="end" class="label">gemini</text>
+<rect x="131" y="521" width="40" height="40" class="gone"/>
+<text x="152" y="547" text-anchor="middle" fill="white" font-weight="700">—</text>
+<rect x="175" y="521" width="40" height="40" class="pass"/>
+<text x="196" y="547" text-anchor="middle" fill="white" font-weight="700">✓</text>
+<rect x="219" y="521" width="40" height="40" class="pass"/>
+<text x="240" y="547" text-anchor="middle" fill="white" font-weight="700">✓</text>
+<rect x="263" y="521" width="40" height="40" class="pass"/>
+<text x="284" y="547" text-anchor="middle" fill="white" font-weight="700">✓</text>
+<rect x="307" y="521" width="40" height="40" class="pass"/>
+<text x="328" y="547" text-anchor="middle" fill="white" font-weight="700">✓</text>
+<rect x="351" y="521" width="40" height="40" class="pass"/>
+<text x="372" y="547" text-anchor="middle" fill="white" font-weight="700">✓</text>
+<rect x="395" y="521" width="40" height="40" class="pass"/>
+<text x="416" y="547" text-anchor="middle" fill="white" font-weight="700">✓</text>
+<rect x="439" y="521" width="40" height="40" class="pass"/>
+<text x="460" y="547" text-anchor="middle" fill="white" font-weight="700">✓</text>
+<rect x="483" y="521" width="40" height="40" class="pass"/>
+<text x="504" y="547" text-anchor="middle" fill="white" font-weight="700">✓</text>
+<rect x="527" y="521" width="40" height="40" class="pass"/>
+<text x="548" y="547" text-anchor="middle" fill="white" font-weight="700">✓</text>
+<rect x="571" y="521" width="40" height="40" class="fail"/>
+<text x="592" y="547" text-anchor="middle" fill="white" font-weight="700">✗</text>
+<rect x="615" y="521" width="40" height="40" class="gone"/>
+<text x="636" y="547" text-anchor="middle" fill="white" font-weight="700">—</text>
+<rect x="659" y="521" width="40" height="40" class="gone"/>
+<text x="680" y="547" text-anchor="middle" fill="white" font-weight="700">—</text>
+<rect x="703" y="521" width="40" height="40" class="gone"/>
+<text x="724" y="547" text-anchor="middle" fill="white" font-weight="700">—</text>
+<rect x="747" y="521" width="40" height="40" class="gone"/>
+<text x="768" y="547" text-anchor="middle" fill="white" font-weight="700">—</text>
+</svg>

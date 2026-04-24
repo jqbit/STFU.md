@@ -1,0 +1,338 @@
+{
+  "reduction_per_harness": [
+    {
+      "harness": "claude",
+      "baseline_tok": 2497,
+      "taut_tok": 1616,
+      "reduction_pct": 35.28233880656788
+    },
+    {
+      "harness": "codex",
+      "baseline_tok": 11414,
+      "taut_tok": 22319,
+      "reduction_pct": -95.5405642193797
+    },
+    {
+      "harness": "copilot",
+      "baseline_tok": 81,
+      "taut_tok": 719,
+      "reduction_pct": -787.6543209876544
+    },
+    {
+      "harness": "droid",
+      "baseline_tok": 1182,
+      "taut_tok": 897,
+      "reduction_pct": 24.111675126903553
+    },
+    {
+      "harness": "hermes",
+      "baseline_tok": 5,
+      "taut_tok": 314,
+      "reduction_pct": -6180
+    },
+    {
+      "harness": "opencode",
+      "baseline_tok": 50,
+      "taut_tok": 929,
+      "reduction_pct": -1757.9999999999998
+    },
+    {
+      "harness": "openclaw",
+      "baseline_tok": 102,
+      "taut_tok": 410,
+      "reduction_pct": -301.96078431372547
+    },
+    {
+      "harness": "pi",
+      "baseline_tok": 10,
+      "taut_tok": 295,
+      "reduction_pct": -2850
+    },
+    {
+      "harness": "cline",
+      "baseline_tok": 0,
+      "taut_tok": 1156,
+      "reduction_pct": 0
+    },
+    {
+      "harness": "agent",
+      "baseline_tok": 0,
+      "taut_tok": 162,
+      "reduction_pct": 0
+    },
+    {
+      "harness": "gemini",
+      "baseline_tok": 168,
+      "taut_tok": 611,
+      "reduction_pct": -263.6904761904762
+    }
+  ],
+  "compliance_matrix": {
+    "qs": [
+      "Q01",
+      "Q02",
+      "Q03",
+      "Q04",
+      "Q05",
+      "Q06",
+      "Q07",
+      "Q08",
+      "Q09",
+      "Q10",
+      "Q11",
+      "Q12",
+      "Q13",
+      "Q14",
+      "Q15"
+    ],
+    "rows": [
+      {
+        "harness": "claude",
+        "cells": {
+          "Q01": null,
+          "Q02": true,
+          "Q03": true,
+          "Q04": true,
+          "Q05": true,
+          "Q06": false,
+          "Q07": true,
+          "Q08": true,
+          "Q09": true,
+          "Q10": true,
+          "Q11": true,
+          "Q12": true,
+          "Q13": false,
+          "Q14": true,
+          "Q15": true
+        }
+      },
+      {
+        "harness": "codex",
+        "cells": {
+          "Q01": false,
+          "Q02": false,
+          "Q03": false,
+          "Q04": false,
+          "Q05": false,
+          "Q06": false,
+          "Q07": false,
+          "Q08": false,
+          "Q09": true,
+          "Q10": false,
+          "Q11": false,
+          "Q12": false,
+          "Q13": false,
+          "Q14": false,
+          "Q15": false
+        }
+      },
+      {
+        "harness": "copilot",
+        "cells": {
+          "Q01": null,
+          "Q02": true,
+          "Q03": true,
+          "Q04": true,
+          "Q05": null,
+          "Q06": true,
+          "Q07": true,
+          "Q08": true,
+          "Q09": true,
+          "Q10": true,
+          "Q11": true,
+          "Q12": true,
+          "Q13": null,
+          "Q14": null,
+          "Q15": null
+        }
+      },
+      {
+        "harness": "droid",
+        "cells": {
+          "Q01": null,
+          "Q02": true,
+          "Q03": true,
+          "Q04": null,
+          "Q05": null,
+          "Q06": false,
+          "Q07": true,
+          "Q08": null,
+          "Q09": null,
+          "Q10": true,
+          "Q11": true,
+          "Q12": true,
+          "Q13": null,
+          "Q14": null,
+          "Q15": null
+        }
+      },
+      {
+        "harness": "hermes",
+        "cells": {
+          "Q01": null,
+          "Q02": null,
+          "Q03": false,
+          "Q04": null,
+          "Q05": null,
+          "Q06": null,
+          "Q07": null,
+          "Q08": null,
+          "Q09": null,
+          "Q10": null,
+          "Q11": null,
+          "Q12": null,
+          "Q13": null,
+          "Q14": null,
+          "Q15": null
+        }
+      },
+      {
+        "harness": "opencode",
+        "cells": {
+          "Q01": null,
+          "Q02": true,
+          "Q03": true,
+          "Q04": null,
+          "Q05": null,
+          "Q06": true,
+          "Q07": true,
+          "Q08": true,
+          "Q09": true,
+          "Q10": true,
+          "Q11": true,
+          "Q12": true,
+          "Q13": null,
+          "Q14": null,
+          "Q15": null
+        }
+      },
+      {
+        "harness": "openclaw",
+        "cells": {
+          "Q01": true,
+          "Q02": true,
+          "Q03": true,
+          "Q04": true,
+          "Q05": true,
+          "Q06": true,
+          "Q07": true,
+          "Q08": null,
+          "Q09": null,
+          "Q10": null,
+          "Q11": null,
+          "Q12": null,
+          "Q13": null,
+          "Q14": null,
+          "Q15": null
+        }
+      },
+      {
+        "harness": "pi",
+        "cells": {
+          "Q01": null,
+          "Q02": null,
+          "Q03": true,
+          "Q04": null,
+          "Q05": null,
+          "Q06": true,
+          "Q07": null,
+          "Q08": true,
+          "Q09": null,
+          "Q10": null,
+          "Q11": true,
+          "Q12": true,
+          "Q13": null,
+          "Q14": null,
+          "Q15": null
+        }
+      },
+      {
+        "harness": "cline",
+        "cells": {
+          "Q01": null,
+          "Q02": true,
+          "Q03": true,
+          "Q04": null,
+          "Q05": null,
+          "Q06": null,
+          "Q07": true,
+          "Q08": true,
+          "Q09": true,
+          "Q10": true,
+          "Q11": true,
+          "Q12": true,
+          "Q13": null,
+          "Q14": null,
+          "Q15": null
+        }
+      },
+      {
+        "harness": "agent",
+        "cells": {
+          "Q01": null,
+          "Q02": null,
+          "Q03": null,
+          "Q04": null,
+          "Q05": null,
+          "Q06": true,
+          "Q07": null,
+          "Q08": null,
+          "Q09": null,
+          "Q10": true,
+          "Q11": null,
+          "Q12": null,
+          "Q13": null,
+          "Q14": null,
+          "Q15": null
+        }
+      },
+      {
+        "harness": "gemini",
+        "cells": {
+          "Q01": null,
+          "Q02": true,
+          "Q03": true,
+          "Q04": true,
+          "Q05": true,
+          "Q06": true,
+          "Q07": true,
+          "Q08": true,
+          "Q09": true,
+          "Q10": true,
+          "Q11": false,
+          "Q12": null,
+          "Q13": null,
+          "Q14": null,
+          "Q15": null
+        }
+      }
+    ]
+  },
+  "progression": [
+    {
+      "version": "v0.10",
+      "mean_reduction_pct": 65,
+      "char_count": 9377
+    },
+    {
+      "version": "v0.11",
+      "mean_reduction_pct": 70,
+      "char_count": 7800
+    },
+    {
+      "version": "v0.12",
+      "mean_reduction_pct": 76,
+      "char_count": 4200
+    },
+    {
+      "version": "v0.13.1",
+      "mean_reduction_pct": 82.1,
+      "char_count": 1521
+    },
+    {
+      "version": "v0.14",
+      "mean_reduction_pct": -1107.0411028888877,
+      "char_count": 1521
+    }
+  ]
+}
