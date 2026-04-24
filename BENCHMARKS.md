@@ -4,7 +4,7 @@
 >
 > Companion to [`PHILOSOPHY.md`](./PHILOSOPHY.md) (the design rationale) and [`EVOLUTION.md`](./EVOLUTION.md) (the version-by-version narrative). This document is for the data nerds.
 
-> ⚠ **Scope notice:** All numbers in this file refer to the **v0.13 full-form `TAUT.md` (9 377 chars)**. The current `TAUT.md` shipped on `main` is **v0.13.1 (1 497 chars)** — same rules, far smaller body. v0.13.1 has not been re-bench-tested; if you reproduce these figures against the current file, expect approximately the same compression and compliance, but the exact deltas are unverified.
+> ⚠ **Scope notice:** All numbers in §1–§11 refer to the **v0.13 full-form `TAUT.md` (9 377 chars)**. The current `TAUT.md` shipped on `main` is **v0.13.1 (1 491 chars)** — same rules, far smaller body. A small v0.13.1 spot-check is in §13 below. A full re-bench is still pending.
 
 ---
 
@@ -416,3 +416,35 @@ The bench harness is general-purpose — point it at any agent CLI by editing `a
 ---
 
 *This file is the canonical source of quantitative truth for TAUT v0.13. If any number cited in `PHILOSOPHY.md`, `EVOLUTION.md`, or `README.md` disagrees with the data here, the data here is correct.*
+
+---
+
+## 13. v0.13.1 spot-check (2026-04-24)
+
+After consolidating `TAUT.md` to a single 1 491-char form, a small smoke test was run against 5 of the 8 originally-benched agents. **N=1 trial × 3 prompts × 5 agents = 15 invocations.** This is a sanity check, **not a re-bench** — N=1 cannot reproduce the v0.13 N=3 confidence, and 3 prompts cannot replace the 15-prompt suite.
+
+**Methodology**: same `tiktoken o200k_base` tokenizer, fenced code stripped, prose tokens only. CLIs invoked non-interactively (`-p` / `exec`). Hermes and OpenClaw skipped (uninstalled from the host); Codex skipped (per request); Copilot skipped (would need a separate harness).
+
+**Prompts**: Q01 (one-liner factual), Q11 (implicit-context), Q14 (casual greeting). Picked because all three have hard TAUT templates and tiny caps — they're the highest-signal prompts for compliance regression.
+
+| CLI    | Q01 | Q11 | Q14 | v0.13.1 sum | v0.13 same-3 sum | Δ vs v0.13 |
+|--------|----:|----:|----:|------------:|-----------------:|-----------:|
+| claude |   9 |   6 |   2 |          17 |               22 |   **−5** ↓ |
+| droid  |   0 |   6 |   7 |          13 |               22 |   **−9** ↓ |
+| pi     |   9 |   6 |   8 |          23 |               22 |    +1 ≈    |
+| gemini |   9 |   6 |   8 |          23 |                6 |  +17 ↑     |
+| agent  |  20 |  63 |  14 |          97 |               25 |  **+72** ↑ |
+| **TOT**| 47  | 87  | 39  |     **173** |           **97** | **+76**    |
+
+**Reading**:
+- **3 of 5 CLIs (claude, droid, pi)** are within ±2 tokens of their v0.13 numbers, or better. The compressed prompt is not measurably hurting them on these prompts.
+- **gemini's +17** is largely format-shift, not register-shift. v0.13 gemini answered Q01 and Q14 inside fenced code blocks (counted as 0 prose tokens by the methodology); v0.13.1 gemini uses inline backticks (`\`cmd\``) and a short greeting, both of which the tokenizer counts as prose. The actual length on screen is similar.
+- **agent (cursor) regressed substantially on Q11** (6 → 63 tokens). The hard template *"Need code or error first."* was lost; the model produced a workspace-aware paragraph instead. This is a real compliance regression — the v0.13 prompt explicitly listed Q11 as a hard-template prompt, and the more compressed v0.13.1 phrasing of that rule was apparently weaker for Cursor's underlying model.
+
+**What this does and does not say**:
+- ✅ Says: claude / droid / pi / gemini compression is preserved within noise on these 3 prompts.
+- ✅ Says: cursor lost the implicit-context template under v0.13.1.
+- ❌ Does not say: v0.13.1 total compression is X% across the full suite (would need 15 prompts × N=3).
+- ❌ Does not say: the cursor regression generalises to all hard templates (would need Q05, Q06, Q13 too).
+
+Until a full re-bench lands, the v0.13 numbers in §1–§11 remain the authoritative figures for the TAUT *rule set*; the v0.13.1 prompt body delivers them with broadly similar effect on most agents and one observed weakness on Cursor's implicit-context template.

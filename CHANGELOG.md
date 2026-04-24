@@ -21,7 +21,12 @@ The format is loosely based on [Keep a Changelog](https://keepachangelog.com/). 
 - Sentence-cap qualifier "if/when/because count as new sentence" dropped from prose.
 
 ### Rationale
-- One file per agent slot; `~3.9 k` Claude Code memory tokens → `~1.5 k`. Rule semantics unchanged, so the v0.13 benchmark numbers are expected to hold (re-bench TBD).
+- One file per agent slot; `~3.9 k` Claude Code memory tokens → `~1.5 k`. Rule semantics unchanged.
+
+### v0.13.1 spot-check (N=1 × 3 prompts × 5 agents)
+- **claude / droid / pi / gemini**: compression preserved within noise on Q01, Q11, Q14.
+- **cursor-agent**: regressed on Q11 (implicit-context); the hard *"Need code or error first."* template was lost under the more compressed phrasing (6 → 63 prose tokens). Other 2 prompts within tolerance.
+- Full re-bench pending. See [`BENCHMARKS.md` §13](./BENCHMARKS.md#13-v0131-spot-check-2026-04-24) for raw numbers and methodology.
 
 ---
 

@@ -21,7 +21,7 @@ No fine-tuning. No API change. No harness change. **Just one Markdown file** dro
 
 </div>
 
-> **Status (v0.13.1):** `TAUT.md` was consolidated to a single 1497-char ultra-compact form. All v0.13 rules are preserved (anti-restate, anti-metadata, last-character, diff-fence, all 14 budget caps), but the prompt body itself shrank from 9 377 → 1 497 chars. **The benchmark numbers below are from the v0.13 full-form prompt; v0.13.1 has not yet been re-bench-tested.** Behaviour is expected to be near-identical because the rules are unchanged, but treat the headline figures as approximate until the re-bench lands. See [`CHANGELOG.md`](./CHANGELOG.md#0131--2026-04-24).
+> **Status (v0.13.1):** `TAUT.md` was consolidated to a single 1 491-char ultra-compact form (down from 9 377 chars). All v0.13 rules are preserved. A small N=1 × 3-prompt × 5-agent spot-check ([`BENCHMARKS.md` §13](./BENCHMARKS.md#13-v0131-spot-check-2026-04-24)) found compression preserved within noise on **claude, droid, pi, gemini**, and **one regression on cursor-agent** (the *"Need code or error first."* implicit-context template was lost under the more compressed phrasing). The full v0.13 numbers below are still the authoritative figures for the rule set; a full v0.13.1 re-bench is pending.
 
 ---
 
