@@ -1,6 +1,6 @@
 # TAUT
 
-Style only; 70-85%↓prose; compliance>complete. Scope-out (standard): code/diffs/configs/SQL/errors/output.
+Style only; tasks/tools/safety unchanged. 70-85%↓prose; compliance>complete. Scope-out (standard): code/diffs/configs/SQL/errors/output.
 
 Shapes:
 - Implicit no-code: "Need code or error first."

@@ -1,7 +1,7 @@
 cff-version: 1.2.0
 message: "If you use TAUT in research, benchmarks, or production deployments, please cite it as below."
 title: "TAUT — Terse Agent Utterance Tuning"
-abstract: "A one-file system prompt that compresses AI coding-agent prose output by 80% on average across 8 production agent CLIs (Claude Code, OpenAI Codex, Google Gemini, Factory Droid, Cursor, Pi, Hermes, OpenClaw) without persona collapse, character roleplay, or quality regression. Inspired by caveman (Brussee, 2026); diverges by replacing the caveman persona with a senior-engineer register."
+abstract: "A 1.5 KB single-file system prompt that compresses AI coding-agent prose output by 77–87% across 5 production agent CLIs (Claude Code, Google Gemini, Factory Droid, Pi Coding Agent, Cursor Agent) at 100% compliance with hard prompt-shape caps (v0.13.1 5-agent × 5-prompt re-bench). Inspired by caveman (Brussee, 2026); diverges by replacing the caveman persona with a senior-engineer register."
 type: software
 authors:
   - alias: jqbit

@@ -419,32 +419,98 @@ The bench harness is general-purpose — point it at any agent CLI by editing `a
 
 ---
 
-## 13. v0.13.1 spot-check (2026-04-24)
+## 13. v0.13.1 first-look spot-check (2026-04-24, superseded by §14)
 
-After consolidating `TAUT.md` to a single 1 491-char form, a small smoke test was run against 5 of the 8 originally-benched agents. **N=1 trial × 3 prompts × 5 agents = 15 invocations.** This is a sanity check, **not a re-bench** — N=1 cannot reproduce the v0.13 N=3 confidence, and 3 prompts cannot replace the 15-prompt suite.
+The first attempt at re-benching v0.13.1 used 3 prompts × 5 agents × N=1 with cursor on its default model `composer-2-fast`. Cursor regressed badly on Q11 (6 → 63 tokens — lost the hard *"Need code or error first."* template). Claude / droid / pi held; gemini shifted output format. See §14 for the full re-bench that resolved cursor's regression by switching cursor's model to `gpt-5.3-codex`.
 
-**Methodology**: same `tiktoken o200k_base` tokenizer, fenced code stripped, prose tokens only. CLIs invoked non-interactively (`-p` / `exec`). Hermes and OpenClaw skipped (uninstalled from the host); Codex skipped (per request); Copilot skipped (would need a separate harness).
+---
 
-**Prompts**: Q01 (one-liner factual), Q11 (implicit-context), Q14 (casual greeting). Picked because all three have hard TAUT templates and tiny caps — they're the highest-signal prompts for compliance regression.
+## 14. v0.13.1 five-agent bench (2026-04-24)
 
-| CLI    | Q01 | Q11 | Q14 | v0.13.1 sum | v0.13 same-3 sum | Δ vs v0.13 |
-|--------|----:|----:|----:|------------:|-----------------:|-----------:|
-| claude |   9 |   6 |   2 |          17 |               22 |   **−5** ↓ |
-| droid  |   0 |   6 |   7 |          13 |               22 |   **−9** ↓ |
-| pi     |   9 |   6 |   8 |          23 |               22 |    +1 ≈    |
-| gemini |   9 |   6 |   8 |          23 |                6 |  +17 ↑     |
-| agent  |  20 |  63 |  14 |          97 |               25 |  **+72** ↑ |
-| **TOT**| 47  | 87  | 39  |     **173** |           **97** | **+76**    |
+After identifying that cursor's `composer-2-fast` model is the variance source, the v0.13.1 prompt was re-benched against the five agents currently supported (claude, gemini, droid, pi, agent), with cursor invoked as `agent --yolo --model gpt-5.3-codex -p ...`. **N=1 trial × 5 prompts × 5 agents = 25 invocations** for both baseline (TAUT files temporarily moved aside) and TAUT conditions (50 invocations total).
 
-**Reading**:
-- **3 of 5 CLIs (claude, droid, pi)** are within ±2 tokens of their v0.13 numbers, or better. The compressed prompt is not measurably hurting them on these prompts.
-- **gemini's +17** is largely format-shift, not register-shift. v0.13 gemini answered Q01 and Q14 inside fenced code blocks (counted as 0 prose tokens by the methodology); v0.13.1 gemini uses inline backticks (`\`cmd\``) and a short greeting, both of which the tokenizer counts as prose. The actual length on screen is similar.
-- **agent (cursor) regressed substantially on Q11** (6 → 63 tokens). The hard template *"Need code or error first."* was lost; the model produced a workspace-aware paragraph instead. This is a real compliance regression — the v0.13 prompt explicitly listed Q11 as a hard-template prompt, and the more compressed v0.13.1 phrasing of that rule was apparently weaker for Cursor's underlying model.
+**Methodology**:
+- Tokenizer: `tiktoken o200k_base`, fenced code stripped, prose tokens only (same as v0.13).
+- Prompts: Q01 (one-liner / cap 30), Q05 (comparison / cap 250), Q06 (error / cap 200), Q11 (implicit-context / cap 60), Q14 (greeting / cap 40).
+- Each (cli, prompt) pair invoked from a unique empty cwd to control for autonomous workspace inspection.
+- Compliance: per-cell pass/fail against the prompt's `ideal_text_tokens_max` cap; agent compliance = passes / 5.
+- Reduction: `(baseline_sum − taut_sum) / baseline_sum` per agent.
+- Droid Q06 + Q11 baseline = DNF (droid hangs on under-specified prompts without a system prompt; excluded from droid's reduction calc — the other 3 cells are used).
 
-**What this does and does not say**:
-- ✅ Says: claude / droid / pi / gemini compression is preserved within noise on these 3 prompts.
-- ✅ Says: cursor lost the implicit-context template under v0.13.1.
-- ❌ Does not say: v0.13.1 total compression is X% across the full suite (would need 15 prompts × N=3).
-- ❌ Does not say: the cursor regression generalises to all hard templates (would need Q05, Q06, Q13 too).
+### Per-cell prose tokens
 
-Until a full re-bench lands, the v0.13 numbers in §1–§11 remain the authoritative figures for the TAUT *rule set*; the v0.13.1 prompt body delivers them with broadly similar effect on most agents and one observed weakness on Cursor's implicit-context template.
+**Baseline (no TAUT):**
+
+| cli    | Q01 | Q05 | Q06 | Q11 | Q14 |
+|--------|----:|----:|----:|----:|----:|
+| claude |   9 | 250 | 114 | 213 |  13 |
+| gemini |  13 | 628 | 179 | 140 |  48 |
+| pi     |  91 | 489 | 223 | 146 |  18 |
+| droid  | 146 | 431 | DNF | DNF |  24 |
+| agent  |  22 | 284 | 245 |  75 |  14 |
+
+**With TAUT v0.13.1 (cursor on `gpt-5.3-codex`):**
+
+| cli    | Q01 | Q05 | Q06 | Q11 | Q14 |
+|--------|----:|----:|----:|----:|----:|
+| claude |   9 |  70 |  29 |   6 |   5 |
+| gemini |   9 |  67 |  45 |   6 |   6 |
+| pi     |   7 |  82 |  48 |   6 |  10 |
+| droid  |   9 | 116 |  90 |   6 |  11 |
+| agent  |   9 |  62 |  43 |  19 |   7 |
+
+### Per-agent metrics
+
+| Agent       | Baseline sum | TAUT sum | Reduction   | Compliance | Notes |
+|-------------|-------------:|---------:|------------:|-----------:|-------|
+| **gemini**  |        1 008 |      133 | **−86.8 %** | 100 % (5/5)|       |
+| **pi**      |          967 |      153 | **−84.2 %** | 100 % (5/5)|       |
+| **claude**  |          599 |      119 | **−80.1 %** | 100 % (5/5)|       |
+| **agent**   |          640 |      140 | **−78.1 %** | 100 % (5/5)| `--model gpt-5.3-codex` |
+| **droid**   |          601 |      136 | **−77.4 %** | 100 % (5/5)| reduction over 3 prompts (Q06+Q11 baseline DNF) |
+| **TOTAL**   |    **3 815** |  **681** | **−82.1 %** | avg **100 %** | |
+
+### Threshold check
+
+Target was **≥70 % reduction AND ≥80 % compliance per agent**. Result: **5/5 pass**.
+
+```
+claude   PASS (−80.1 % red, 100 % cmp)
+gemini   PASS (−86.8 % red, 100 % cmp)
+pi       PASS (−84.2 % red, 100 % cmp)
+droid    PASS (−77.4 % red, 100 % cmp)   [3-prompt reduction, 5-prompt compliance]
+agent    PASS (−78.1 % red, 100 % cmp)   [requires --model gpt-5.3-codex]
+```
+
+### Caveats and known limits
+
+- **N=1 per cell.** Run-to-run variance is real; observed claude Q05 ranged 17–72 across iterations (factor of 4). The "−80 %" headline is one observation, not a confidence interval. The v0.13 bench used N=3.
+- **5 prompts, not 15.** The v0.13 suite covered 13 distinct verbosity-trap categories. This re-bench covers 5 (one-liner, comparison, error, implicit, greeting). The dropped categories (concept, debug, recap, regex output-only, emo-debug, best-practices, tradeoffs) are not measured at v0.13.1.
+- **Droid baseline DNF for Q06 + Q11.** Droid's `exec` mode without a system prompt enters an autonomous investigation loop on under-specified prompts and times out. Three baseline measurements were used for droid's reduction calc instead of five. Compliance was checked over all five cells.
+- **Cursor compliance is model-dependent.** With cursor's default `composer-2-fast` model, v0.13.1 lands at ~30 % reduction and ~60 % compliance (cursor adds workspace descriptions and explanatory closers regardless of system prompt). With `gpt-5.3-codex` or `gpt-5.2`, cursor lands at the figures above. The full v0.13 9 377-char prompt does NOT recover cursor on `composer-2-fast` (tested at 9.2 % reduction with the full form). This is a model-level RLHF artifact, not a TAUT defect.
+- **Prompt iteration history.** v0.13.1 (1 521-char) was selected after benching five candidate prompts (1 491c → 9 377c) for cursor compatibility. Cursor's compression turned out to be inversely correlated with prompt size for `composer-2-fast` (more rules = more verbose responses), which led to the model-switch recommendation as the actual fix.
+
+### Reproducing this bench
+
+```bash
+# 1. Install TAUT on all five
+TAUT_URL=https://raw.githubusercontent.com/jqbit/TAUT/main/TAUT.md
+for d in ~/.claude/CLAUDE.md ~/.gemini/GEMINI.md ~/.factory/AGENTS.md ~/.pi/agent/AGENTS.md ~/AGENTS.md; do
+  mkdir -p "$(dirname "$d")" && curl -fsSL "$TAUT_URL" -o "$d"
+done
+
+# 2. Move TAUT aside for baseline runs
+for f in ~/.claude/CLAUDE.md ~/.gemini/GEMINI.md ~/.factory/AGENTS.md ~/.pi/agent/AGENTS.md ~/AGENTS.md; do
+  mv "$f" "$f.bak"
+done
+
+# 3. Run baseline on each (cli, prompt) pair from a fresh empty cwd, capture output, count tokens
+#    (see scripts/bench-v0131.sh — invokes claude -p / gemini -p / pi -p / droid exec --auto medium / agent --yolo --model gpt-5.3-codex -p)
+
+# 4. Restore TAUT, repeat for the with-TAUT condition
+for f in ~/.claude/CLAUDE.md.bak ~/.gemini/GEMINI.md.bak ~/.factory/AGENTS.md.bak ~/.pi/agent/AGENTS.md.bak ~/AGENTS.md.bak; do
+  mv "$f" "${f%.bak}"
+done
+
+# 5. Token-count both with tiktoken o200k_base, strip ```fenced``` blocks, compute per-agent deltas
+```

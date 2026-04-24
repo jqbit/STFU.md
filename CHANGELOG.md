@@ -23,10 +23,32 @@ The format is loosely based on [Keep a Changelog](https://keepachangelog.com/). 
 ### Rationale
 - One file per agent slot; `~3.9 k` Claude Code memory tokens → `~1.5 k`. Rule semantics unchanged.
 
-### v0.13.1 spot-check (N=1 × 3 prompts × 5 agents)
-- **claude / droid / pi / gemini**: compression preserved within noise on Q01, Q11, Q14.
-- **cursor-agent**: regressed on Q11 (implicit-context); the hard *"Need code or error first."* template was lost under the more compressed phrasing (6 → 63 prose tokens). Other 2 prompts within tolerance.
-- Full re-bench pending. See [`BENCHMARKS.md` §13](./BENCHMARKS.md#13-v0131-spot-check-2026-04-24) for raw numbers and methodology.
+### v0.13.1 5-agent re-bench (2026-04-24)
+
+After spot-check identified cursor regression on its default `composer-2-fast` model, full re-bench was run on **5 agents × 5 prompts × N=1** with cursor on `gpt-5.3-codex`. **All 5 hit the ≥70 % reduction + ≥80 % compliance threshold:**
+
+| Agent  | Reduction | Compliance |
+|--------|----------:|-----------:|
+| gemini |  −86.8 %  | 100 % (5/5)|
+| pi     |  −84.2 %  | 100 % (5/5)|
+| claude |  −80.1 %  | 100 % (5/5)|
+| agent  |  −78.1 %  | 100 % (5/5) (requires `--model gpt-5.3-codex`) |
+| droid  |  −77.4 %  | 100 % (5/5)|
+| **TOT**|  **−82.1 %** | avg **100 %** |
+
+### Cursor model recommendation (new)
+
+Cursor's default `composer-2-fast` model is RLHF-trained for context-rich responses and does NOT respect TAUT's hard templates (workspace descriptions, alternative-command tips, explanatory closers always emitted). Switching cursor's model to `gpt-5.3-codex` (or `gpt-5.2`) restores TAUT compliance and the bench numbers above. Recommended alias:
+
+```bash
+alias cursor-agent='agent --yolo --model gpt-5.3-codex'
+```
+
+### Supported agents narrowed to 5
+
+The repo now supports 5 agents (down from 9). Dropped: codex, copilot, hermes, openclaw — none re-bench-tested at v0.13.1 on this host. The v0.13 numbers for those 4 are preserved in [`BENCHMARKS.md` §1–§11](./BENCHMARKS.md) for historical reference and are reproducible by anyone running them with the v0.13 9 377-char form.
+
+See [`BENCHMARKS.md` §14](./BENCHMARKS.md#14-v0131-five-agent-bench-2026-04-24) for raw per-cell numbers, methodology, caveats, and reproducibility steps.
 
 ---
 

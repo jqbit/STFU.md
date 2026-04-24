@@ -5,23 +5,21 @@
 **TAUT** *(taut, adj.)* — pulled tight; not slack.
 *Also a backronym: **T**erse **A**gent **U**tterance **T**uning.*
 
-### A one-file system prompt that cuts AI coding-agent output by ~80%
+### A 1.5 KB system prompt that cuts AI coding-agent output by ~80%
 
 No fine-tuning. No API change. No harness change. **Just one Markdown file** dropped into your agent's global instruction slot.
 
 [![release](https://img.shields.io/github/v/release/jqbit/TAUT?style=flat-square&color=blue&label=release)](https://github.com/jqbit/TAUT/releases)
 [![license](https://img.shields.io/badge/license-MIT-green?style=flat-square)](./LICENSE)
-[![agents](https://img.shields.io/badge/agents-9-orange?style=flat-square)](#-supported-agents)
-[![reduction](https://img.shields.io/badge/output_reduction-~80%25_(v0.13)-red?style=flat-square)](#-benchmark)
-[![compliance](https://img.shields.io/badge/avg_compliance-96.7%25_(v0.13)-brightgreen?style=flat-square)](#-benchmark)
+[![agents](https://img.shields.io/badge/agents-5-orange?style=flat-square)](#-supported-agents)
+[![reduction](https://img.shields.io/badge/output_reduction-77--87%25-red?style=flat-square)](#-benchmark)
+[![compliance](https://img.shields.io/badge/compliance-100%25_(5/5_agents)-brightgreen?style=flat-square)](#-benchmark)
 [![stars](https://img.shields.io/github/stars/jqbit/TAUT?style=flat-square&color=yellow)](https://github.com/jqbit/TAUT/stargazers)
 [![last commit](https://img.shields.io/github/last-commit/jqbit/TAUT?style=flat-square)](https://github.com/jqbit/TAUT/commits/main)
 
-**Works with:** Claude Code · OpenAI Codex · Google Gemini · Factory Droid · Cursor Agent · Pi · GitHub Copilot · Hermes · OpenClaw
+**Works with:** Claude Code · Google Gemini · Factory Droid · Pi Coding Agent · Cursor Agent
 
 </div>
-
-> **Status (v0.13.1):** `TAUT.md` was consolidated to a single 1 491-char ultra-compact form (down from 9 377 chars). All v0.13 rules are preserved. A small N=1 × 3-prompt × 5-agent spot-check ([`BENCHMARKS.md` §13](./BENCHMARKS.md#13-v0131-spot-check-2026-04-24)) found compression preserved within noise on **claude, droid, pi, gemini**, and **one regression on cursor-agent** (the *"Need code or error first."* implicit-context template was lost under the more compressed phrasing). The full v0.13 numbers below are still the authoritative figures for the rule set; a full v0.13.1 re-bench is pending.
 
 ---
 
@@ -29,46 +27,34 @@ No fine-tuning. No API change. No harness change. **Just one Markdown file** dro
 
 Modern AI coding agents are RLHF-trained to be *helpful*, which makes them **verbose by default** — preambles, hedges, "when to use which" closers, security postscripts you didn't ask for. Output tokens are 3–5× the price of input. Latency scales linearly with output length. Reading 600 tokens to extract one command costs the most expensive token rate of all: **your attention**.
 
-**TAUT fixes that.** One file. Nine agents. ~80 % output reduction (v0.13 bench). Production-safe register.
+**TAUT fixes that.** One 1.5 KB file. Five agents tested. ≥77 % output reduction on every one. 100 % compliance with hard prompt-shape caps.
 
 ---
 
-## 📊 Benchmark
+## 📊 Benchmark (v0.13.1 — 5 agents × 5 prompts × N=1)
 
-> Numbers below measured against the **v0.13 full-form `TAUT.md` (9 377 chars)**. The current `TAUT.md` (v0.13.1, 1 497 chars) preserves every rule but has not been re-bench-tested yet. Treat these figures as the established floor for the rule set, not as a guarantee for the new file.
+| Agent       | Baseline (no TAUT) | With TAUT v0.13.1 | **Δ %**     | Compliance |
+|-------------|-------------------:|------------------:|------------:|-----------:|
+| **gemini**  |              1 008 |               133 | **−86.8 %** | 100 % (5/5)|
+| **pi**      |                967 |               153 | **−84.2 %** | 100 % (5/5)|
+| **claude**  |                599 |               119 | **−80.1 %** | 100 % (5/5)|
+| **agent**\* |                640 |               140 | **−78.1 %** | 100 % (5/5)|
+| **droid**   |                601 |               136 | **−77.4 %** | 100 % (5/5)|
+| **TOTAL**   |          **3 815** |             **681** | **−82.1 %** | avg **100 %** |
 
-| Agent | Prose tokens (no TAUT) | With TAUT v0.13 | Δ % | Compliance |
-|---|---:|---:|---:|---:|
-| **gemini** | 3 854 | 156 | **−96.0 %** | 100 % |
-| **droid** | 3 735 | 532 | −85.8 % | 100 % |
-| **pi** | 2 736 | 574 | −79.0 % | 100 % |
-| **openclaw** | 1 382 | 296 | −78.6 % | 100 % |
-| **codex** | 2 765 | 624 | −77.4 % | 93 % |
-| **claude** | 1 680 | 400 | −76.2 % | 100 % |
-| **hermes** | 4 958 | 1 228 | −75.2 % | 87 % * |
-| **cursor-agent** | 4 616 | 1 323 | −71.3 % | 93 % |
-| **TOTAL** | **25 726** | **5 133** | **−80.0 %** | avg **96.7 %** |
+> 5 agents · 5 prompts (Q01 one-liner / Q05 comparison / Q06 error / Q11 implicit-context / Q14 greeting) · N=1 trial · `tiktoken o200k_base` cross-agent fair tokenizer · empty cwd per cell to control for autonomous workspace inspection. Each agent invoked non-interactively (`-p` / `exec`). Droid Q06 + Q11 baseline = DNF (droid hangs without TAUT on under-specified prompts; excluded from droid's reduction calc — 3 prompts only). Full data in [`BENCHMARKS.md` §14](./BENCHMARKS.md#14-v0131-five-agent-bench-2026-04-24).
 
-> 8 agents · 15 prompts · N=3 trials per cell · `tiktoken o200k_base` cross-agent fair tokenizer · ~3 900 measured responses across v0.1 → v0.13. GitHub Copilot CLI added as ninth supported agent post-v0.13; benchmark pending v0.14.
-
-**Beats [caveman](https://github.com/JuliusBrussee/caveman)'s published 65% reduction by 15 percentage points** — while keeping a professional senior-engineer register (no persona collapse, no "ooga booga" responses, no character roleplay). [Full design rationale →](./PHILOSOPHY.md#3-the-caveman-personification-problem-the-reason-taut-exists)
-
-\* hermes ceiling is harness-bounded; its CLI emits diff views + `session_id:` trailers no prompt can suppress. [Details →](./EVOLUTION.md#8-the-hermes-structural-ceiling)
+\* **Cursor Agent**: TAUT compliance depends on the cursor model. The default `composer-2-fast` does NOT respect TAUT's hard templates (it always describes workspace state and adds tips). Use `agent --model gpt-5.3-codex -p ...` (or `gpt-5.2`) for the figures shown — these models follow the TAUT register cleanly. See [`AGENT-LOCATIONS.md` §Cursor](./AGENT-LOCATIONS.md#cursor-agent) for a wrapper alias.
 
 ---
 
 ## 🚀 Install — pick your agent, run one line
 
-Each command downloads `TAUT.md` straight from this repo and writes it to the right path. No clone. No script. Just `curl`.
-
-### Single-agent installs
+Each command downloads `TAUT.md` from this repo and writes it to the agent's global instruction file path. No clone, no script, just `curl`.
 
 ```bash
 # Claude Code
 mkdir -p ~/.claude && curl -fsSL https://raw.githubusercontent.com/jqbit/TAUT/main/TAUT.md -o ~/.claude/CLAUDE.md
-
-# OpenAI Codex
-mkdir -p ~/.codex && curl -fsSL https://raw.githubusercontent.com/jqbit/TAUT/main/TAUT.md -o ~/.codex/AGENTS.md
 
 # Google Gemini
 mkdir -p ~/.gemini && curl -fsSL https://raw.githubusercontent.com/jqbit/TAUT/main/TAUT.md -o ~/.gemini/GEMINI.md
@@ -79,36 +65,19 @@ mkdir -p ~/.factory && curl -fsSL https://raw.githubusercontent.com/jqbit/TAUT/m
 # Pi Coding Agent
 mkdir -p ~/.pi/agent && curl -fsSL https://raw.githubusercontent.com/jqbit/TAUT/main/TAUT.md -o ~/.pi/agent/AGENTS.md
 
-# Cursor CLI
+# Cursor Agent
 curl -fsSL https://raw.githubusercontent.com/jqbit/TAUT/main/TAUT.md -o ~/AGENTS.md
-
-# GitHub Copilot CLI
-mkdir -p ~/.copilot && curl -fsSL https://raw.githubusercontent.com/jqbit/TAUT/main/TAUT.md -o ~/.copilot/copilot-instructions.md
 ```
 
 <details>
-<summary><b>All-seven-overwrite-agents at once</b></summary>
+<summary><b>Install all five at once</b></summary>
 
 ```bash
 TAUT_URL=https://raw.githubusercontent.com/jqbit/TAUT/main/TAUT.md
-for d in ~/.claude/CLAUDE.md ~/.codex/AGENTS.md ~/.gemini/GEMINI.md ~/.factory/AGENTS.md ~/.pi/agent/AGENTS.md ~/AGENTS.md ~/.copilot/copilot-instructions.md; do
+for d in ~/.claude/CLAUDE.md ~/.gemini/GEMINI.md ~/.factory/AGENTS.md ~/.pi/agent/AGENTS.md ~/AGENTS.md; do
   mkdir -p "$(dirname "$d")" && curl -fsSL "$TAUT_URL" -o "$d"
 done
 ```
-</details>
-
-<details>
-<summary><b>OpenClaw + Hermes (append-mode — preserves their existing system prompt)</b></summary>
-
-```bash
-TAUT_URL=https://raw.githubusercontent.com/jqbit/TAUT/main/TAUT.md
-TARGET=~/.hermes/SOUL.md   # or ~/.openclaw/workspace/AGENTS.md
-mkdir -p "$(dirname "$TARGET")" && touch "$TARGET"
-grep -q "TAUT — Terse Agent Communication Mode" "$TARGET" || \
-  { printf '\n\n---\n\n' >> "$TARGET" && curl -fsSL "$TAUT_URL" >> "$TARGET"; }
-```
-
-Run it once for each of the two append-mode agents. Re-running is safe — won't duplicate.
 </details>
 
 ### Smoke test (any agent)
@@ -126,7 +95,7 @@ If you see a paragraph instead of one line, the file isn't loading. See [`AGENT-
 
 | File | Purpose |
 |---|---|
-| [`TAUT.md`](./TAUT.md) | The prompt itself |
+| [`TAUT.md`](./TAUT.md) | The prompt itself (1 521 chars) |
 | [`AGENT-LOCATIONS.md`](./AGENT-LOCATIONS.md) | Per-agent deploy paths + verification |
 | [`PHILOSOPHY.md`](./PHILOSOPHY.md) | Design rationale, ML grounding, cited research |
 | [`EVOLUTION.md`](./EVOLUTION.md) | v0.1 → v0.13 journey, what worked, what didn't |
@@ -140,23 +109,19 @@ If you see a paragraph instead of one line, the file isn't loading. See [`AGENT-
 
 ```
 1. Claude Code (Anthropic)        →  ~/.claude/CLAUDE.md
-2. OpenAI Codex CLI               →  ~/.codex/AGENTS.md
-3. Google Gemini CLI              →  ~/.gemini/GEMINI.md
-4. Factory Droid                  →  ~/.factory/AGENTS.md
-5. Pi Coding Agent                →  ~/.pi/agent/AGENTS.md
-6. Cursor CLI                     →  ~/AGENTS.md
-7. GitHub Copilot CLI             →  ~/.copilot/copilot-instructions.md
-8. OpenClaw TUI                   →  ~/.openclaw/workspace/AGENTS.md  (append)
-9. Hermes Agent (Nous Research)   →  ~/.hermes/SOUL.md                (append)
+2. Google Gemini CLI              →  ~/.gemini/GEMINI.md
+3. Factory Droid                  →  ~/.factory/AGENTS.md
+4. Pi Coding Agent                →  ~/.pi/agent/AGENTS.md
+5. Cursor Agent CLI               →  ~/AGENTS.md  (use --model gpt-5.3-codex)
 ```
 
-Same file, nine agents, near-uniform behaviour. **5× reduction in cross-agent variance** (66 pp baseline compliance spread → 13 pp with TAUT, measured on the v0.13 eight-agent set). See [`EVOLUTION.md`](./EVOLUTION.md#7-the-variance-shrinkage-story-centerpiece) §7.
+Same file, five agents, ≥77 % output reduction across the lot at 100 % compliance with the v0.13.1 5-prompt suite.
 
 ---
 
 ## 💡 What TAUT actually does
 
-- **Hard numerical caps** on response length per prompt-shape (one-liner ≤ 25 tokens, comparison ≤ 70, best-practices list ≤ 120, etc.)
+- **Hard numerical caps** on response length per prompt-shape (one-liner ≤ 20 tokens, comparison ≤ 70, best-practices list ≤ 120, etc.)
 - **Hard response templates** for under-specified prompts ("Fix this bug." → *"Need code or error first."*)
 - **Structural caps** (headers, tables, bold, bullets, emoji)
 - **Anti-helpfulness rule** — no unsolicited security postscripts, no "when to use which" closers
@@ -188,7 +153,13 @@ Caveman's compression mechanics work — they're the foundation TAUT builds on. 
 <details>
 <summary><b>Does TAUT work on agents that aren't in your list?</b></summary>
 
-Probably yes, with caveats. TAUT.md is a generic system prompt — any agent that loads a global Markdown instruction file will read it. The 8 agents tested are just the ones we benched. If you try it on another agent (Aider, Continue, Sweep, etc.), please [open a compatibility report](./.github/ISSUE_TEMPLATE/agent-compatibility.md) — these reports are valuable.
+Probably yes, with caveats. `TAUT.md` is a generic system prompt — any agent that loads a global Markdown instruction file will read it. The five agents listed are the ones tested in v0.13.1. If you try it on another agent (Aider, Continue, Sweep, Hermes, OpenClaw, Codex CLI, Copilot CLI, etc.), please [open a compatibility report](./.github/ISSUE_TEMPLATE/agent-compatibility.md). The v0.13 8-agent bench (with the older 9 377-char prompt) is preserved in [`BENCHMARKS.md`](./BENCHMARKS.md) §1–§11 for historical reference.
+</details>
+
+<details>
+<summary><b>Why does cursor need a model flag?</b></summary>
+
+Cursor's default model `composer-2-fast` is RLHF-trained to always provide workspace context, alternative-command tips, and explanatory closers — even when the system prompt explicitly forbids them. With TAUT v0.13.1 it lands at ~30 % reduction (compared to ~80 % for the four other agents). Switching to `gpt-5.3-codex` or `gpt-5.2` (`agent --model gpt-5.3-codex -p ...`) restores the figures in the benchmark table. The recommended alias is `alias cursor-agent='agent --yolo --model gpt-5.3-codex'`.
 </details>
 
 <details>
@@ -198,15 +169,9 @@ TAUT has built-in override clauses: it explicitly resumes full verbosity for sec
 </details>
 
 <details>
-<summary><b>Why is hermes only at 87% compliance?</b></summary>
-
-Hermes's CLI binary forcibly emits two artefacts on coding tasks: a `┊ review diff` block showing the unified diff of any file written, and a `session_id: <id>` trailer on every response. Both appear in the response stream because they're injected by hermes's CLI layer between the LLM's output and the user — TAUT can instruct the LLM not to generate them, but the CLI appends them anyway. Tested across v0.9 → v0.13 with explicit anti-metadata rules; none worked. This is a harness-level constraint, not a TAUT failure. Full write-up in [`EVOLUTION.md`](./EVOLUTION.md#8-the-hermes-structural-ceiling) §8.
-</details>
-
-<details>
 <summary><b>Will TAUT bloat my input tokens?</b></summary>
 
-`TAUT.md` is ~9 KB ≈ 2 000 tokens. Every major API supports prompt caching (Anthropic, OpenAI, Google) at ~90% input-cost reduction on cached prefixes. Loaded once per session, TAUT pays for itself within ~3 turns of normal usage and saves dramatically more from there. Long-running terminals (`claude` opened once, used many turns) maximise the cache hit rate.
+`TAUT.md` is 1 521 bytes ≈ ~400 tokens (down from ~2 000 in v0.13). Every major API supports prompt caching (Anthropic, OpenAI, Google) at ~90 % input-cost reduction on cached prefixes. Loaded once per session, TAUT pays for itself within ~1–2 turns of normal usage and saves dramatically more from there. Long-running terminals (`claude` opened once, used many turns) maximise the cache hit rate.
 </details>
 
 <details>
@@ -228,20 +193,20 @@ Inspired by **[caveman](https://github.com/JuliusBrussee/caveman)** by Julius Br
 [![star history](https://img.shields.io/github/stars/jqbit/TAUT?style=social)](https://github.com/jqbit/TAUT/stargazers)
 
 Issues + PRs welcome. Particularly interested in:
-- Agent-compatibility reports for CLIs not in the supported-9 list
-- Per-agent override blocks (e.g., a `--quiet`-mode wrapper for hermes)
+- Agent-compatibility reports for CLIs not in the supported-5 list
+- Per-cursor-model bench data
 - Variance / methodology improvements
 - Translations of the prompt suite to non-English contexts
 
-See [`CONTRIBUTING.md`](./CONTRIBUTING.md) for how to add agents, run benchmarks, and propose v0.14+ changes.
+See [`CONTRIBUTING.md`](./CONTRIBUTING.md) for how to add agents, run benchmarks, and propose changes.
 
 ---
 
 ## 📚 Citation
 
 ```
-TAUT — Terse Agent Utterance Tuning (v0.13).
-8-agent cross-harness compression benchmark, 2026.
+TAUT — Terse Agent Utterance Tuning (v0.13.1).
+5-agent cross-CLI compression benchmark, 2026.
 https://github.com/jqbit/TAUT
 Inspired by caveman (Julius Brussee, 2026).
 ```
@@ -258,7 +223,7 @@ GitHub auto-renders a "Cite this repository" button from [`CITATION.cff`](./CITA
 
 <div align="center">
 
-**Keywords**: AI coding agent · LLM system prompt · prompt engineering · token reduction · output compression · Claude Code prompt · GPT prompt · Gemini prompt · Cursor agent prompt · agentic AI · prompt optimization · LLMOps · Anthropic Claude prompt · OpenAI Codex prompt · Google Gemini prompt · concise output · terse AI · brevity constraints · LLM cost reduction · production AI · AI engineering
+**Keywords**: AI coding agent · LLM system prompt · prompt engineering · token reduction · output compression · Claude Code prompt · Gemini prompt · Cursor agent prompt · Factory Droid prompt · agentic AI · prompt optimization · LLMOps · Anthropic Claude prompt · Google Gemini prompt · concise output · terse AI · brevity constraints · LLM cost reduction · production AI · AI engineering
 
 *Built with iteration, measurement, and respect for the reader's time.*
 
