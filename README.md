@@ -1,12 +1,12 @@
 # TAUT — Terse Agent Utterance Tuning
 
-A 1.3 KB system prompt that cuts coding-agent prose by ~80 % without touching tool-use, code correctness, or reasoning. Drop it into any agent's instruction slot.
+A 671-byte system prompt that cuts coding-agent prose by ~80 % without touching tool-use, code correctness, or reasoning. Drop it into any agent's instruction slot.
 
-## Headline (v0.14, 11 harnesses)
+## Headline (v0.14.2, 11 harnesses)
 
 | metric | value |
 |---|---|
-| char count | **1 290** (TAUT.md) |
+| char count | **671** (TAUT.md) |
 | communication-only | yes — Q08 (write & run) and Q13 (regex-only) sanity gates |
 | harnesses tested | 11 (claude, codex, copilot, droid, hermes, opencode, openclaw, pi, cline, agent/cursor, gemini) |
 | target | 100 % compliance · ≥ 80 % prose reduction |
