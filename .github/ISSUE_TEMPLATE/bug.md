@@ -1,6 +1,6 @@
 ---
 name: Bug report
-about: Something in STFU.md is causing wrong/broken/regressed behaviour
+about: Something in STFU.md or STFU.chat.md is causing wrong/broken/regressed behaviour
 title: "[bug] <one-line summary>"
 labels: bug
 assignees: ''
@@ -9,12 +9,12 @@ assignees: ''
 ## What happened
 
 - **Agent + version**:
-- **STFU.md version**:
+- **Prompt + version**: `STFU.md` or `STFU.chat.md`, version/commit:
 - **Prompt that triggered it**:
 
 ## Expected
 
-What should STFU.md have produced?
+What should the prompt have produced?
 
 ## Actual
 
@@ -30,4 +30,4 @@ Steps to reproduce, ideally from a fresh shell.
 
 ## Suggested fix (optional)
 
-If you have a STFU.md edit in mind that would address this, drop it here.
+If you have an edit in mind that would address this, drop it here.

@@ -82,7 +82,7 @@ After deploying, sanity-check that every file carries the STFU.md prompt:
 ```bash
 for p in ~/.claude/CLAUDE.md ~/.gemini/GEMINI.md \
          ~/.factory/AGENTS.md ~/.pi/agent/AGENTS.md ~/AGENTS.md; do
-  grep -q "^# STFU.md" "$p" && echo "✓ $p" || echo "✗ $p"
+  grep -q "^# STFU" "$p" && echo "✓ $p" || echo "✗ $p"
 done
 ```
 

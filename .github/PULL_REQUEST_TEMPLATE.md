@@ -1,6 +1,6 @@
 ## What this PR changes
 
-Brief description of the change to `STFU.md` (or other files).
+Brief description of the change to `STFU.md`, `STFU.chat.md`, or other files.
 
 ## Why
 
@@ -20,7 +20,7 @@ If you didn't run the bench, that's fine — flag it and a maintainer will run i
 
 ## Verification
 
-- [ ] `STFU.md` deploys cleanly to all 8 agent paths (per `AGENT-LOCATIONS.md`)
+- [ ] `STFU.md` deploys cleanly to documented coding-agent paths (per `data/agent-locations.md`)
 - [ ] Smoke test passes (`claude -p "What's the git command to undo the last commit but keep changes staged?"` returns the bare command)
 - [ ] No regression on a previously-passing prompt (manual spot check is fine)
 

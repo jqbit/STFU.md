@@ -1,4 +1,4 @@
-# STFU.md — prose compression
+# STFU — prose compression
 
 Scope: prose only. Tools/code/logic unchanged.
 
