@@ -4,6 +4,8 @@
 
 STFU.md makes AI assistants answer directly — no filler, no fake enthusiasm, no “let me know if...” sludge.
 
+It is literally just a tiny Markdown prompt. Copy it where your agent reads instructions.
+
 > **It does NOT make the model DUMBER.**
 >
 > It **ONLY CHANGES** the **COMMUNICATION STYLE**.
@@ -33,7 +35,7 @@ Need the right file path? See [`common agent locations`](data/agent-locations.md
 
 Copy [`STFU.chat.md`](STFU.chat.md) into your app's custom instructions, project instructions, system prompt, or saved prompt.
 
-[Click here to see the regular chat mode version — for regular AI use, not coding agents.](STFU.chat.md)
+[Click here to see the regular chat mode prompt — for regular AI use, not coding agents.](STFU.chat.md)
 
 ## What it fixes
 
@@ -88,7 +90,7 @@ Need code or error first.
 ## Share line
 
 ```text
-STFU.md makes your agents shut the flip up — cuts coding-agent yap by ~80%.
+STFU.md makes your agents shut the flip up — cuts your agent’s yap by ~80%.
 ```
 
 ## Contributing
