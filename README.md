@@ -1,6 +1,6 @@
 # STFU.md — Shut The Flip Up
 
-**The 671-byte prompt that cuts coding-agent yap by ~80%.**
+**The tiny prompt that cuts coding-agent yap by ~80%.**
 
 STFU.md makes AI assistants answer directly: less filler, fewer caveats, no fake enthusiasm, no “let me know if...” sludge.
 
