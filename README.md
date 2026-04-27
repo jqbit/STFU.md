@@ -1,10 +1,12 @@
 # STFU.md — Shut The Flip Up
 
-**The tiny prompt that cuts coding-agent yap by ~80%.**
+**The tiny prompt that cuts your agent’s yap by ~80%.**
 
 STFU.md makes AI assistants answer directly: less filler, fewer caveats, no fake enthusiasm, no “let me know if...” sludge.
 
-It does **not** make the model dumber. It only changes the communication style.
+> **It does NOT make the model DUMBER.**
+>
+> It **ONLY CHANGES** the **COMMUNICATION STYLE**.
 
 ## Which file should I use?
 
