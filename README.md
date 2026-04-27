@@ -33,7 +33,10 @@ Common locations:
 | Gemini CLI | `~/.gemini/GEMINI.md` |
 | Codex | `~/.codex/AGENTS.md` |
 | Cursor Agent | `~/AGENTS.md` |
-| Cline | `~/.cline/data/rules/STFU.md` |
+| Factory Droid | `~/.factory/AGENTS.md` |
+| Pi | `~/.pi/agent/AGENTS.md` |
+| Hermes | `~/.hermes/SOUL.md` |
+| OpenClaw | `~/.openclaw/AGENTS.md` |
 
 More locations: [`data/agent-locations.md`](data/agent-locations.md)
 
