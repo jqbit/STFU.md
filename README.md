@@ -2,7 +2,7 @@
 
 **The tiny prompt that cuts your agent’s yap by ~80%.**
 
-STFU.md makes AI assistants answer directly: less filler, fewer caveats, no fake enthusiasm, no “let me know if...” sludge.
+STFU.md makes AI assistants answer directly — no filler, no fake enthusiasm, no “let me know if...” sludge.
 
 > **It does NOT make the model DUMBER.**
 >
