@@ -8,6 +8,36 @@ STFU.md is a drop-in compression prompt for AI assistants. It keeps the useful p
 
 Use it anywhere an AI gives you too much yap.
 
+## Tired of ooga-booga concise mode?
+
+We've all seen **caveman mode**: it works because it makes agents stop writing essays. Great idea. Real pain point.
+
+But it also spends prompt tokens making your agent act like a monke.
+
+STFU.md keeps the compression, drops the bit. No roleplay. No persona collapse. No “me fix bug now” energy. Just a tighter communication register for people who want the answer, not a campfire skit.
+
+If your AI keeps doing this:
+
+- “Sure — here’s a comprehensive breakdown...”
+- Repeating your question back to you
+- Adding five caveats you did not ask for
+- Explaining the command after you asked for only the command
+- Ending every answer with “let me know if you want me to...”
+
+Then STFU mode is for you.
+
+Caveman-style prompting is reported around **~65% average prose reduction**. STFU.md's 5-agent reference bench hit **−82.1% total prose reduction** with **100% average compliance** — over a 15-point jump without spending the prompt budget on roleplay.
+
+Same goal. Less gimmick. More compliance.
+
+| Approach | What it does | Tradeoff |
+|---|---|---|
+| Default AI | Polite, padded, exhaustive | slow, expensive, attention tax |
+| Caveman mode | Shorter answers via persona | concise, but ooga-booga leakage |
+| STFU.md | Shorter answers via output rules | concise without roleplay |
+
+STFU.md is for anyone who has ever thought: **“I asked for the answer, not a TED Talk.”**
+
 ## Pick your prompt
 
 | File | Use it for | What it optimizes |
