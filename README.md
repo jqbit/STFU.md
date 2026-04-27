@@ -37,13 +37,9 @@ More locations: [`data/agent-locations.md`](data/agent-locations.md)
 
 ### ChatGPT / Claude / Gemini / Perplexity
 
-Copy the contents of [`STFU.chat.md`](STFU.chat.md) into custom instructions, project instructions, or your saved prompt.
+Copy [`STFU.chat.md`](STFU.chat.md) into your app's custom instructions, project instructions, system prompt, or saved prompt.
 
-Raw file:
-
-```text
-https://raw.githubusercontent.com/jqbit/STFU.md/main/STFU.chat.md
-```
+[Click here to see the regular chat mode version — for regular AI use, not coding agents.](STFU.chat.md)
 
 ## What it fixes
 
