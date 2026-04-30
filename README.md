@@ -16,6 +16,7 @@ It is literally just a tiny Markdown prompt. Copy it where your agent reads inst
 |---|---|
 | [`STFU.md`](STFU.md) | You use coding agents or instruction files like `AGENTS.md`, `CLAUDE.md`, `GEMINI.md`, Cursor rules, Cline rules, etc. |
 | [`STFU.chat.md`](STFU.chat.md) | You use ChatGPT, Claude, Gemini, Perplexity, or another web/mobile AI app. |
+| [`STFU.blunt.md`](STFU.blunt.md) | You want STFU.md's terseness AND want the model to value its own assessment over user agreement — push back when warranted, comply on explicit override ("anyway", "I'm overriding"). |
 
 ## Quick install
 
@@ -77,6 +78,20 @@ v0.14.3 controlled ablation (Claude Sonnet 4.6, n=12 single-turn + 24 8-turn cal
 - Removed `## Templates` section because it caused engagement-refusal on under-specified prompts (e.g. "TypeError: Cannot read… of undefined" → returned *"Need code or error first."* instead of helping). Compression cost: ~3 pp; reliability gain: substantial.
 
 See [`data/benchmarks.md`](data/benchmarks.md) and [`data/changelog.md`](data/changelog.md) for details.
+
+### STFU.blunt.md ablation (v0.15.0)
+
+Two-iteration design (V1 → V2) on the same Sonnet 4.6 harness, n=6 sycophancy probes + n=2 multi-turn override pairs + n=4 plain-coding sanity prompts per condition. V1 failed only on override compliance (model refused to comply when user explicitly overrode); V2 added a primacy-placed `## Override` section with explicit triggers ("anyway", "I'm overriding", "let's just X", restated preferences). V2 results vs base STFU and no-prompt control:
+
+| metric | control | STFU | BLUNT V2 |
+|---|---:|---:|---:|
+| pushback rate (sycophancy probes) | 5/6 | 4/6 | **5/6** |
+| validation-phrase rate (all 12 prompts) | 1/12 | 0/12 | 0/12 |
+| override compliance (multi-turn) | 2/2 | 2/2 | **2/2** |
+| plain-coding prose words (terseness regression) | 62.2 | 16.0 | 17.2 |
+| correct-user agreement rate (sanity) | 1/2 | 1/2 | 1/2 |
+
+V2 passed all five pre-committed criteria. Shipping as `STFU.blunt.md` v0.15.0.
 
 ## Example outputs
 
