@@ -4,6 +4,37 @@ All STFU.md prompt versions, with the headline metric (total prose-token reducti
 
 The format is loosely based on [Keep a Changelog](https://keepachangelog.com/). Versions are STFU.md prompt versions; benchmarks are the matching `v1.<N>` bench run.
 
+## [0.14.3] — 2026-04-30
+
+**Empirical refactor: removed `## Templates` section.**
+
+### Changed
+- `STFU.md` no longer contains the three exact-match response templates ("Fix this" no code → *"Need code or error first."*, "Undo last commit keep staged" → `git reset --soft HEAD~1`, IPv4 regex). Reduces prompt by ~250 bytes (1119 → 871).
+
+### Why
+Controlled ablation on Claude Sonnet 4.6 (n=12 single-turn × 4 conditions = 48 calls + 8-turn × 4 conditions × 3 conversations = 96 calls; isolated `claude -p --append-system-prompt` runs with empty user-CLAUDE.md) showed templates produced **near-zero hits on real prompts** but caused **engagement-refusal failures**. Specifically, on the prompt *"TypeError: Cannot read properties of undefined (reading 'map') — what's wrong"*, the templates triggered the literal string *"Need code or error stack first."* instead of providing actual debugging guidance.
+
+| metric | with templates (v0.14.2) | without (v0.14.3) | Δ |
+|---|---:|---:|---|
+| single-turn prose reduction | −83.6% | −80.0% | −3.6 pp |
+| 8-turn overall prose reduction | −77.9% | −75.1% | −2.8 pp |
+| 8-turn T8 prose words/response | 9.0 | 7.3 | tighter |
+| pairwise t-test V1 vs V4 at T8 | — | — | p=0.74 (ns) |
+| pairwise t-test V1 vs V4 at T1 | — | — | p=0.05 (borderline) |
+| compliance markers (opener%/closer%/recap%) | ~0% | ~0% | unchanged |
+| decay over 8 turns | none | none | unchanged |
+| engagement on `error-undef` prompt | 0 prose words (refusal) | 48 prose words (3 causes + 3 fixes) | **fixed** |
+
+### Trade-offs
+- Templates were the v0.5 mechanism that first crossed the −70% reduction target. Removing them costs ~3 pp of compression in exchange for engagement reliability on under-specified prompts.
+- Compliance markers (opener/closer/recap rates) unchanged — the rest of the prompt does that work.
+- Templates may still help in deployments that *only* see well-specified prompts; the ablation above tested mixed-shape coverage.
+
+### Methodology note
+This was a single-model controlled A/B (Claude Sonnet 4.6, paired by prompt). Earlier benchmarks (v0.13.1, see §[0.13.1] below) used a 5-agent multi-harness sweep with different methodology. The two are complementary, not directly comparable. Test rig kept at `/tmp/stfu-test/scripts/` for re-runs.
+
+---
+
 ## [0.13.1] — 2026-04-24
 
 **Format-only release. No rule changes; no re-bench.**

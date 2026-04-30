@@ -66,11 +66,17 @@ The difference: STFU.md aims for concise output **without** turning the assistan
 
 ## Benchmarks
 
-The current coding-agent prompt is **671 bytes**.
+The current coding-agent prompt is **871 bytes** (v0.14.3).
 
-Reference bench: **−82.1% total prose reduction** with **100% average compliance** across 5 tested agents.
+Reference bench (v0.13.1, 5 agents × 5 prompts): **−82.1% total prose reduction** with **100% average compliance**.
 
-See [`data/benchmarks.md`](data/benchmarks.md) for details.
+v0.14.3 controlled ablation (Claude Sonnet 4.6, n=12 single-turn + 24 8-turn calls per condition):
+- **−80.0% prose reduction** vs no-prompt baseline (single-turn, paired t-test p<0.0001, Cohen's d=1.79)
+- **−75.1%** averaged across 8-turn coding conversations
+- No statistically significant decay over 8 turns (slope p=0.28; T1→T8 ratio 0.15)
+- Removed `## Templates` section because it caused engagement-refusal on under-specified prompts (e.g. "TypeError: Cannot read… of undefined" → returned *"Need code or error first."* instead of helping). Compression cost: ~3 pp; reliability gain: substantial.
+
+See [`data/benchmarks.md`](data/benchmarks.md) and [`data/changelog.md`](data/changelog.md) for details.
 
 ## Example outputs
 
@@ -84,7 +90,7 @@ Yes — use SQLite first. Switch when writes/concurrency hurt.
 ```
 
 ```text
-Need code or error first.
+git reset --soft HEAD~1
 ```
 
 ## Share line
