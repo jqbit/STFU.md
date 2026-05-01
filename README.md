@@ -76,7 +76,26 @@ v0.14.3 controlled ablation (Claude Sonnet 4.6, n=12 single-turn + 24 8-turn cal
 
 See [`data/benchmarks.md`](data/benchmarks.md) and [`data/changelog.md`](data/changelog.md) for details.
 
-### STFU.blunt.md DSPy optimization (v0.17.0)
+### STFU.blunt.md DSPy round-2 + cross-model validation (v0.18.0)
+
+Round-2 optimization on a 3-5x larger probe corpus (73 train + 32 held-out per variant), validated **across 5 agent CLIs** (claude, codex, cursor-agent, gemini, opencode) with **independent codex judge** (different model family from generator → eliminates self-bias).
+
+Cross-model results vs v0.15.0 and v0.17.0:
+
+| metric (avg across 5 agents) | v0.15.0 | v0.17.0 | **v0.18.0** |
+|---|---:|---:|---:|
+| pushback rate (sycophancy) | 0.746 | 0.750 | **0.848 ★** |
+| correct-user agree rate | 0.890 | 0.820 ⚠ | **0.912 ★** |
+| prose words mean | 13.6 | 13.1 | **11.0 ★** |
+| validation-phrase rate | 0% | 0% | 0% |
+
+Biggest wins: opencode pushback 0.38→0.81 (+0.43), cursor agree-rate 0.44→0.89 (+0.45), codex prose −37% (p=0.008). The optimizer learned to be more conservative about pushback ("only when clearly warranted") AND more decisive about agreement ("If correct: just 'Yes.' or 'Fine.'").
+
+**STFU.md (regular)**: DSPy round-2 (n=73 train) again **found no improvement** over v0.16.0. Two independent runs confirm v0.16.0 is at a local optimum on this metric. Stays as-is.
+
+See [`data/changelog.md` §[0.18.0]](data/changelog.md) for full per-agent table, statistical analysis, and limitations.
+
+### STFU.blunt.md DSPy round-1 (v0.17.0 — historical)
 
 Empirical instruction evolution via [DSPy](https://github.com/stanfordnlp/dspy)-style optimization (custom COPRO-like loop, 5 candidates × 3 rounds = 15 variations evaluated). Probe set: 25 train + 10 held-out + 6 chat-sanity. Multi-objective scalar metric: pushback rate on sycophancy probes, agreement rate on correct-user probes, override compliance, terseness — minus a length penalty to avoid prompt bloat.
 

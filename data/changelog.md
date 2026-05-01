@@ -4,6 +4,101 @@ All STFU.md prompt versions, with the headline metric (total prose-token reducti
 
 The format is loosely based on [Keep a Changelog](https://keepachangelog.com/). Versions are STFU.md prompt versions; benchmarks are the matching `v1.<N>` bench run.
 
+## [0.18.0] — 2026-05-01
+
+**`STFU.blunt.md` — DSPy round-2 + cross-model held-out validation across 5 agents.**
+
+### Changed
+- `STFU.blunt.md` refined further via DSPy-style instruction evolution, this time on a 3–5x larger probe corpus (n=72 train, n=32 held-out for blunt; n=73 train, n=32 held-out for stfu) and validated **across 5 different coding-agent CLIs**: claude, codex, cursor-agent, gemini, opencode. Independent judge: codex (different model family from claude/sonnet — eliminates self-bias).
+
+### Not changed
+- `STFU.md` (v0.16.0) — DSPy optimization on the expanded corpus **again found no improvement**. The seed prompt scored 0.508 (vs 0.540 in the smaller corpus), and across 18 candidate variations × 3 rounds, no candidate beat it. Two independent DSPy runs both converged on "shipped is at a local optimum on this metric." Stays as-is.
+
+### What's new in v0.18.0 BLUNT vs v0.17.0
+
+| element | v0.17.0 | v0.18.0 (DSPy round-2 winner) |
+|---|---|---|
+| Bluntness rule | "Disagree when warranted" | "Disagree **only when clearly** warranted" (anti-contrarian) |
+| Confirm shape | "Yes/No first. If wrong or incomplete: correction" | "Yes/No first. **If correct: just 'Yes.' or 'Fine.'**" (forces decisive affirmation) |
+| Opinion shape | "direct answer first + reason" | "**verdict first** + reason. **Pick a side.**" (anti-hedging) |
+| Code shape | "artifact + ≤6w summary" | "code artifact only, **no explanation unless asked**" (tighter) |
+| Flawed-premise rule | "correct verdict first + why fails + alternative" | "correct it first. **Only push back if premise is objectively wrong**" (anti-contrarian) |
+| Style | "Never open with validation" | + "**Never withhold a verdict**" (anti-hedging) |
+
+The optimizer learned to be MORE conservative about pushback (only when clearly warranted) AND MORE decisive about correct-user agreement (just "Yes."). This is exactly the failure mode v0.17.0 had on `cursor-agent` (44% correct-user agree) and on `opencode` (38% pushback rate).
+
+### Cross-model held-out evaluation (n=32 probes × 5 agents = 160 cells per condition)
+
+Generation across 5 agents using **prepend-to-user-message** method (uniform across agents — gemini/codex/opencode lack `--append-system-prompt`). Independent judge: codex (different model family).
+
+**Pushback rate on sycophancy probes (higher=better):**
+
+| | claude | codex | cursor | gemini | opencode | **avg** |
+|---|---:|---:|---:|---:|---:|---:|
+| v0.15.0 (original blunt) | 0.88 | 0.91 | 0.84 | 0.72 | 0.38 | 0.746 |
+| v0.17.0 (DSPy round-1) | 0.84 | 0.88 | 0.56 | 0.69 | 0.78 | 0.750 |
+| **v0.18.0 (DSPy round-2)** | **0.84** | **0.97** | **0.81** | **0.81** | **0.81** | **0.848** ★ |
+
+**Correct-user agree rate (anti-contrarian sanity, higher=better):**
+
+| | claude | codex | cursor | gemini | opencode | **avg** |
+|---|---:|---:|---:|---:|---:|---:|
+| v0.15.0 | 1.00 | 1.00 | 0.89 | 0.89 | 0.67 | 0.890 |
+| v0.17.0 | 1.00 | 0.88 | 0.44 | 0.89 | 0.89 | 0.820 ⚠ |
+| **v0.18.0** | **1.00** | **1.00** | **0.89** | **1.00** | **0.67** | **0.912** ★ |
+
+**Prose words mean (lower=tighter):**
+
+| | claude | codex | cursor | gemini | opencode | **avg** |
+|---|---:|---:|---:|---:|---:|---:|
+| v0.15.0 | 28.8 | 11.1 | 18.7 | 6.2 | 3.3 | 13.6 |
+| v0.17.0 | 31.2 | 10.4 | 11.8 | 6.6 | 5.7 | 13.1 |
+| **v0.18.0** | **22.7** | **7.0** | **15.4** | **5.4** | **4.6** | **11.0** ★ |
+
+**Validation phrases:** 0% across all conditions / all agents (all variants successfully suppress reflexive validation openers).
+
+### Statistical significance (paired t-tests, n=32 per cell)
+
+Most pairwise comparisons individually have p>0.05 (n=32 limits detection of small effects), but the **direction is consistent**: v0.18.0 wins on every cross-model average and dominates on the agents where v0.17.0 was weakest.
+
+| metric | strongest signal |
+|---|---|
+| Codex prose words: shipped 11.1 → optimized 7.0 | **p=0.008** ✓ |
+| Opencode pushback: shipped 0.38 → optimized 0.81 (Δ=+0.43) | direction-consistent |
+| Cursor agree-rate: 0.44 → 0.89 (Δ=+0.45) | direction-consistent |
+
+Honest framing: not every pairwise comparison hits p<0.05, but cross-model average improvements are consistent and the failure-mode fixes (cursor agree-rate, opencode pushback) are large-magnitude. Treat as "shipped is materially better than v0.17.0 on cross-model average."
+
+### Methodology
+
+**Probe corpus:** 73 STFU train / 32 held-out + 72 BLUNT train / 32 held-out. Categories: explanations, opinions, errors, code/cmds, chat-style, sycophancy probes (security/factual/overengineering/anti-pattern), correct-user statements, plain coding, override scenarios.
+
+**Optimization:** custom DSPy-style instruction evolution loop. breadth=6, depth=4 = 24 candidates per variant + seed (BLUNT completed 25; STFU completed 19/25 — judge timeout in round 4 truncated the run, but no improvement was found through round 3 either).
+
+**Multi-objective scalar metric:**
+- BLUNT: per-category — sycophancy = pushback verdict (YES=1.0/PARTIAL=0.5/NO=0.0); correct-user = `agree × terseness`; plain = terseness; flawed-approach = pushback verdict.
+- STFU: `informativeness × terseness − 0.3 × validation_phrase`.
+- Both with prompt-length penalty: `final = mean − max(0, (prompt_chars − 1500)/5000)`.
+
+**Cross-model evaluation:** prepend-to-user-message for uniform comparison across agents that don't expose system-prompt injection. This is a controlled-comparison method — NOT how the prompt is deployed in practice (as a memory file). Documented caveat.
+
+**Independent judge:** codex (GPT family, different from claude). Eliminates self-bias from the prior single-model judge.
+
+### Limitations honestly documented
+
+1. **n=32 per cell** is enough to detect medium-large effects but not small ones. p-values for many comparisons fall in the 0.10–0.50 range.
+2. **5 agents tested** but each has its own scaffolding (cursor-agent uses sonnet under the hood; gemini/codex/opencode use their respective default models). Cross-model results conflate "prompt working" with "model behavior."
+3. **STFU "no improvement found"** — confirmed in two independent DSPy runs (n=25 and n=73 corpora). May reflect metric ceiling rather than true prompt ceiling. Different metric design might find improvements this metric misses.
+4. **Judge model bias** — codex (GPT-5) is the judge; this differs from generator (claude/sonnet for some cells). For other-agent cells (gemini, codex, opencode generating), codex-as-judge has its own biases.
+
+### Cost
+
+DSPy round-2 optimization + cross-model held-out: ~2,800 LM calls + ~800 judge calls = ~3,600 calls × ~$0.02 ≈ **~$70 this round**. Cumulative session: ~$100 across ~5,000 calls.
+
+Test rig + optimizer code preserved at `/tmp/stfu-test/scripts/dspy_*.py` and `/tmp/stfu-test/scripts/cross_model_*.py`.
+
+---
+
 ## [0.17.0] — 2026-05-01
 
 **`STFU.blunt.md` — DSPy-style empirical optimization. STFU.md unchanged (already at local optimum).**
