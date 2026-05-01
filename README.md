@@ -14,8 +14,7 @@ It is literally just a tiny Markdown prompt. Copy it where your agent reads inst
 
 | File | Use this if... |
 |---|---|
-| [`STFU.md`](STFU.md) | You use coding agents or instruction files like `AGENTS.md`, `CLAUDE.md`, `GEMINI.md`, Cursor rules, Cline rules, etc. |
-| [`STFU.chat.md`](STFU.chat.md) | You use ChatGPT, Claude, Gemini, Perplexity, or another web/mobile AI app. |
+| [`STFU.md`](STFU.md) | You want concise output — works for coding agents (`AGENTS.md`, `CLAUDE.md`, `GEMINI.md`, Cursor/Cline rules) and chat apps (ChatGPT, Claude, Gemini, Perplexity). |
 | [`STFU.blunt.md`](STFU.blunt.md) | You want STFU.md's terseness AND want the model to value its own assessment over user agreement — push back when warranted, comply on explicit override ("anyway", "I'm overriding"). |
 
 ## Quick install
@@ -34,9 +33,7 @@ Need the right file path? See [`common agent locations`](data/agent-locations.md
 
 ### ChatGPT / Claude / Gemini / Perplexity
 
-Copy [`STFU.chat.md`](STFU.chat.md) into your app's custom instructions, project instructions, system prompt, or saved prompt.
-
-[Click here to see the regular chat mode prompt — for regular AI use, not coding agents.](STFU.chat.md)
+Copy [`STFU.md`](STFU.md) into your app's custom instructions, project instructions, system prompt, or saved prompt.
 
 ## What it fixes
 

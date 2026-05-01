@@ -4,6 +4,20 @@ All STFU.md prompt versions, with the headline metric (total prose-token reducti
 
 The format is loosely based on [Keep a Changelog](https://keepachangelog.com/). Versions are STFU.md prompt versions; benchmarks are the matching `v1.<N>` bench run.
 
+## [0.16.0] — 2026-05-01
+
+**Merge `STFU.chat.md` into `STFU.md` — single unified prompt.**
+
+### Changed
+- `STFU.md` now covers both coding agents and chat apps. Caps cover both modes (coding: ≤2 sentences ≤6w; chat: 1 sentence ≤5w default), and shapes from both variants are consolidated.
+- README, CONTRIBUTING, issue templates, and PR template updated to drop the chat/coding split.
+
+### Removed
+- `STFU.chat.md` — folded into `STFU.md`. No longer maintained as a separate file.
+
+### Why
+The two prompts diverged only in default cap tightness; keeping a separate file added install friction without a meaningful behavioural delta. One file, two clearly stated defaults, same outcome.
+
 ## [0.15.0] — 2026-04-30
 
 **New variant: `STFU.blunt.md` — STFU.md terseness + anti-sycophancy.**

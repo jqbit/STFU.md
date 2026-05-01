@@ -1,6 +1,6 @@
 ---
 name: Bug report
-about: Something in STFU.md or STFU.chat.md is causing wrong/broken/regressed behaviour
+about: Something in STFU.md or STFU.blunt.md is causing wrong/broken/regressed behaviour
 title: "[bug] <one-line summary>"
 labels: bug
 assignees: ''
@@ -9,7 +9,7 @@ assignees: ''
 ## What happened
 
 - **Agent + version**:
-- **Prompt + version**: `STFU.md` or `STFU.chat.md`, version/commit:
+- **Prompt + version**: `STFU.md` or `STFU.blunt.md`, version/commit:
 - **Prompt that triggered it**:
 
 ## Expected

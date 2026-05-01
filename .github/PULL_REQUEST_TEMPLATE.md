@@ -1,6 +1,6 @@
 ## What this PR changes
 
-Brief description of the change to `STFU.md`, `STFU.chat.md`, or other files.
+Brief description of the change to `STFU.md`, `STFU.blunt.md`, or other files.
 
 ## Why
 

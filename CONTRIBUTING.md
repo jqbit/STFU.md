@@ -10,7 +10,7 @@ The best contributions are small and specific:
 
 - bug reports where STFU.md made an agent worse
 - examples of agents/apps where the prompt works or fails
-- tighter wording for [`STFU.md`](STFU.md) or [`STFU.chat.md`](STFU.chat.md)
+- tighter wording for [`STFU.md`](STFU.md) or [`STFU.blunt.md`](STFU.blunt.md)
 - docs fixes, install notes, or agent-specific path updates
 - benchmark results from your own setup
 
@@ -55,7 +55,7 @@ Please include:
 - agent/app name
 - version if known
 - where instructions should be installed
-- whether it uses [`STFU.md`](STFU.md) or [`STFU.chat.md`](STFU.chat.md)
+- whether it uses [`STFU.md`](STFU.md) or [`STFU.blunt.md`](STFU.blunt.md)
 - any quirks users should know
 
 ## Running checks
