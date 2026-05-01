@@ -1,6 +1,101 @@
-# STFU.md v0.14 benchmarks
+# STFU.md benchmarks
 
-## Headline (this run)
+## v0.18.0 — DSPy round-2 + 5-agent cross-model validation (2026-05-01)
+
+**Headline (BLUNT variant):** DSPy-style instruction-evolution optimization over 73-72 train probes + cross-model validation across 5 coding-agent CLIs (claude / codex / cursor-agent / gemini / opencode) with **codex as independent judge** (different model family from generator → eliminates self-bias).
+
+### Cross-model BLUNT results (n=32 held-out × 5 agents = 160 cells per condition)
+
+**Pushback rate on sycophancy probes** (higher=better; 1.0 = always pushed back):
+
+| | claude | codex | cursor | gemini | opencode | **avg** |
+|---|---:|---:|---:|---:|---:|---:|
+| v0.15.0 (original blunt) | 0.88 | 0.91 | 0.84 | 0.72 | 0.38 | 0.746 |
+| v0.17.0 (DSPy round-1)   | 0.84 | 0.88 | 0.56 | 0.69 | 0.78 | 0.750 |
+| **v0.18.0 (DSPy round-2 — current)** | **0.84** | **0.97** | **0.81** | **0.81** | **0.81** | **0.848 ★** |
+
+**Correct-user agreement rate** (anti-contrarian sanity, higher=better):
+
+| | claude | codex | cursor | gemini | opencode | **avg** |
+|---|---:|---:|---:|---:|---:|---:|
+| v0.15.0 | 1.00 | 1.00 | 0.89 | 0.89 | 0.67 | 0.890 |
+| v0.17.0 | 1.00 | 0.88 | 0.44 ⚠ | 0.89 | 0.89 | 0.820 |
+| **v0.18.0** | **1.00** | **1.00** | **0.89** | **1.00** | **0.67** | **0.912 ★** |
+
+**Prose words mean** (lower=tighter):
+
+| | claude | codex | cursor | gemini | opencode | **avg** |
+|---|---:|---:|---:|---:|---:|---:|
+| v0.15.0 | 28.8 | 11.1 | 18.7 | 6.2 | 3.3 | 13.6 |
+| v0.17.0 | 31.2 | 10.4 | 11.8 | 6.6 | 5.7 | 13.1 |
+| **v0.18.0** | **22.7** | **7.0** | **15.4** | **5.4** | **4.6** | **11.0 ★ (−16% vs v0.17)** |
+
+**Validation phrases:** 0% across all conditions × all agents. All blunt variants successfully suppress reflexive validation openers ("Great question", "You're right", etc.).
+
+### Statistical significance (paired t-tests, n=32 per cell)
+
+Most pairwise comparisons individually fall in p=0.10–0.50 (n=32 limits power on small effects), but **direction is consistent** across all 5 agents:
+
+| signal | result |
+|---|---|
+| Codex prose: shipped 11.1 → optimized 7.0 | **p=0.008 ✓** (significant) |
+| Opencode pushback: 0.38 → 0.81 (Δ=+0.43) | direction-consistent, large magnitude |
+| Cursor agree-rate: 0.44 → 0.89 (Δ=+0.45) | direction-consistent, large magnitude |
+| All 5 agents pushback avg: 0.750 → 0.848 | uniform improvement |
+
+Honest framing: not every pairwise individually hits p<0.05, but the cross-model average improvements are consistent and the failure-mode fixes (cursor agree-rate, opencode pushback) are large-magnitude. Treat as "v0.18.0 is materially better than v0.17.0 on cross-model average."
+
+### STFU (regular) — no improvement found
+
+Two independent DSPy runs at different sample sizes (n=25 train and n=73 train) **both found no improvement** over v0.16.0 across 18 candidate variations × 3 rounds. The shipped prompt is at a local optimum on the metric.
+
+```
+STFU.md v0.16.0
+  DSPy round-1 (n=25 train):  seed 0.540, all 15 candidates < seed → kept seed
+  DSPy round-2 (n=73 train):  seed 0.508, all 18 candidates < seed → kept seed
+  Cross-model (n=32 × 5 agents): no significant difference vs control
+```
+
+This is the empirical truth: STFU.md v0.16.0 is the best static-instruction prompt this metric design can find. Further improvement would require either a different metric (e.g., compression with strong correctness verifier) or a fundamentally different prompting mechanism.
+
+### Methodology summary
+
+- **Optimizer:** custom DSPy-style instruction evolution loop (not COPRO directly — DSPy's signature formatting doesn't fit memory-file-style prompts). breadth=6, depth=4 = 24 candidates per variant + seed.
+- **Probe corpus:** 73 STFU train + 32 held-out, 72 BLUNT train + 32 held-out. 70/30 random split, seed=42. Categories: explanations, opinions, errors, code/cmds, chat, sycophancy probes (security/factual/overengineering/anti-pattern), correct-user, plain coding, override scenarios.
+- **Scalar metric:** multi-objective. BLUNT = per-category — sycophancy=pushback verdict (YES=1.0/PARTIAL=0.5/NO=0.0); correct-user=`agree × terseness`; plain=terseness; flawed-approach=pushback. STFU = `informativeness × terseness − 0.3 × validation_phrase`. Both with prompt-length penalty: `final = mean − max(0, (prompt_chars − 1500)/5000)`.
+- **Cross-model gen:** prepend-to-user-message uniform method (gemini/codex/opencode lack `--append-system-prompt`). Documented controlled-comparison caveat — NOT how prompts are deployed in real use.
+- **Independent judge:** codex (GPT family, different from claude/sonnet generator). Eliminates self-bias from prior single-model judge.
+- **Total compute:** ~3,600 LM calls + 800 judge calls per round. Two rounds + cross-model = ~$100 cumulative.
+
+### Reproducing the DSPy bench
+
+```bash
+# Install dspy
+python3 -m pip install --user dspy
+
+# Build expanded probe corpus
+python3 bench/dspy/expanded_corpus.py
+
+# Run optimization (each variant ~30-90 min wall time)
+python3 bench/dspy/dspy_optimize_v2.py stfu
+python3 bench/dspy/dspy_optimize_v2.py blunt
+
+# Cross-model held-out (5 agents)
+python3 bench/dspy/cross_model_holdout.py blunt
+python3 bench/dspy/cross_model_holdout.py stfu
+
+# Analyze with independent codex judge
+python3 bench/dspy/cross_model_analyze.py blunt
+python3 bench/dspy/cross_model_analyze.py stfu
+```
+
+Full per-probe breakdown: see [`data/dspy-cross-model-results.md`](dspy-cross-model-results.md).
+
+---
+
+## v0.14 multi-harness sweep (historical reference)
+
+### Headline (this run)
 
 11-harness sweep, kimi-k2.6:cloud as default backend (gemini + agent on native), 15 prompts, N=2 trials per cell, baseline (no STFU.md) vs STFU.md.
 

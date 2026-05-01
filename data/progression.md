@@ -1,4 +1,31 @@
-# STFU.md — Evolution: From v0.1 to v0.13
+# STFU.md — Evolution: From v0.1 to v0.18
+
+> The version-by-version story of how a single Markdown file went from `−33.9 %` prose-token reduction (v0.1) to a DSPy-optimized cross-model-validated v0.18.0 with a sibling anti-sycophancy variant (`STFU.blunt.md`). Eighteen iterations across three eras: hand-crafted (v0.1–v0.13.1), empirical ablation (v0.14.3), and **DSPy + cross-model** (v0.15–v0.18). 8,000+ measured agent responses across the full journey.
+
+## Three eras
+
+| era | versions | method | best metric reported |
+|---|---|---|---|
+| **I. Hand-crafted** (v0.1 → v0.13.1, Apr 2026) | v0.1–v0.13.1 | Iterated by hand, ~3,900 responses across 8 agents × 15 prompts × 3 trials per cell | −82.1% prose tokens (v0.13.1, 5 agents) |
+| **II. Empirical ablation** (v0.14.3, Apr 30) | v0.14.3 | Controlled A/B on Sonnet 4.6 — confirmed templates section caused engagement-refusal failures | −80% prose, refusal failure mode fixed |
+| **III. DSPy + cross-model** (v0.15 → v0.18, May 1) | v0.15.0–v0.18.0 | DSPy-style instruction evolution + 5-agent cross-model validation + independent codex judge | BLUNT pushback rate 0.848 across 5 agents (v0.18.0) |
+
+## Era III summary (v0.15 → v0.18)
+
+| Ver | Variant | Method | Headline metric | Key change |
+|---|---|---|---|---|
+| v0.14.3 | STFU.md | Hand ablation, n=12+24 | −80% prose (single-model) | Removed `## Templates` section (caused engagement refusal on under-specified prompts). |
+| v0.15.0 | STFU.blunt.md (NEW) | Hand-iterated V1→V2 | Pushback 5/6 sycophancy, override 2/2, 0% validation phrases | New variant — anti-sycophancy + override mechanism, mirrors STFU.md terseness rules. |
+| v0.16.0 | STFU.md | Manual unification | Same metrics, single file | Merged `STFU.chat.md` into `STFU.md`. Universal coding+chat. |
+| v0.17.0 | STFU.blunt.md | DSPy round-1 (n=25 train) | Pushback 5/6, +0.118 held-out vs v0.15 | Optimizer added `Confirm` shape rule + "Never open with validation". |
+| **v0.18.0** | STFU.blunt.md | **DSPy round-2 (n=72 train) + 5-agent cross-model validation + codex judge** | **Pushback avg 0.848 across 5 agents (vs 0.750 v0.17), prose −16%, agree-rate 0.912 (vs 0.820 v0.17)** | Optimizer added "Disagree only when clearly warranted", "Pick a side", "Never withhold a verdict" + tighter Confirm rule. |
+| v0.18.0 | STFU.md | DSPy round-2 (n=73 train) | NO improvement found over v0.16.0 | Two independent runs confirmed v0.16.0 is at a local optimum on the metric. |
+
+The v0.18.0 BLUNT prompt is the **first variant in the project's history validated across 5 different coding-agent CLIs with an independent (different-model-family) judge.** See [`benchmarks.md` v0.18 section](benchmarks.md) and [`dspy-cross-model-results.md`](dspy-cross-model-results.md) for full per-agent numbers.
+
+---
+
+## Era I (v0.1 → v0.13) — original hand-crafted journey
 
 > The version-by-version story of how a single Markdown file went from `−33.9 %` prose-token reduction (with a 66-percentage-point compliance spread across agents) to `−80.0 %` reduction (with a 13-point spread). Thirteen iterations, three thousand nine hundred measured agent responses, and a small library of prompt-engineering lessons that generalize beyond STFU.md itself.
 

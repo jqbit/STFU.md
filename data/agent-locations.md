@@ -1,49 +1,65 @@
 # STFU.md — Agent Deployment Locations
 
-Where to drop `STFU.md` for each of the 5 supported coding-agent CLIs.
+Where to drop `STFU.md` (or `STFU.blunt.md`) for each supported coding-agent CLI.
 
-## The five files
+> **Both variants use the same file paths.** Pick the variant you want — drop it at the path. STFU.md = terse only. STFU.blunt.md = terse + anti-sycophancy.
+
+## The eight files
 
 | # | Agent | File path | Mode |
 |---|---|---|---|
 | 1 | claude (Claude Code) | `~/.claude/CLAUDE.md` | full overwrite |
 | 2 | gemini (Google Gemini CLI) | `~/.gemini/GEMINI.md` | full overwrite |
-| 3 | droid (Factory Droid) | `~/.factory/AGENTS.md` | full overwrite |
-| 4 | pi (Pi Coding Agent) | `~/.pi/agent/AGENTS.md` | full overwrite |
-| 5 | agent (Cursor Agent CLI) | `~/AGENTS.md` | full overwrite |
+| 3 | codex (OpenAI Codex CLI) | `~/.codex/AGENTS.md` | full overwrite |
+| 4 | agent (Cursor Agent CLI) | `~/AGENTS.md` | full overwrite |
+| 5 | opencode (SST opencode) | `~/.config/opencode/AGENTS.md` | full overwrite |
+| 6 | droid (Factory Droid) | `~/.factory/AGENTS.md` | full overwrite |
+| 7 | pi (Pi Coding Agent) | `~/.pi/agent/AGENTS.md` | full overwrite |
+| 8 | hermes (Hermes built-in memory) | `~/.hermes/memories/MEMORY.md` | **append** as new `§`-block |
 
-The file is just the STFU.md prompt by itself — no merge, no append.
+> **Hermes is special.** Its built-in `MEMORY.md` is "always active" memory containing user-curated entries separated by `§`. **Do not overwrite** — append the STFU prompt as a new memory block (separated by `§`). Or condense to a single dense paragraph since hermes treats memory entries as prose blocks.
+
+The file is just the prompt by itself — no merge, no append (except hermes).
 
 ## ⚡ Fastest install — pick your agent, run one line
 
 Each command below downloads `STFU.md` straight from GitHub and writes it to the right path. No clone. No script. Just curl.
 
-### Single-agent installs
+### Pick your variant
 
 ```bash
-# Claude Code
-mkdir -p ~/.claude && curl -fsSL https://raw.githubusercontent.com/jqbit/STFU.md/main/STFU.md -o ~/.claude/CLAUDE.md
+# Regular (terse only)
+STFU_URL=https://raw.githubusercontent.com/jqbit/STFU.md/main/STFU.md
 
-# Google Gemini
-mkdir -p ~/.gemini && curl -fsSL https://raw.githubusercontent.com/jqbit/STFU.md/main/STFU.md -o ~/.gemini/GEMINI.md
-
-# Factory Droid
-mkdir -p ~/.factory && curl -fsSL https://raw.githubusercontent.com/jqbit/STFU.md/main/STFU.md -o ~/.factory/AGENTS.md
-
-# Pi Coding Agent
-mkdir -p ~/.pi/agent && curl -fsSL https://raw.githubusercontent.com/jqbit/STFU.md/main/STFU.md -o ~/.pi/agent/AGENTS.md
-
-# Cursor Agent
-curl -fsSL https://raw.githubusercontent.com/jqbit/STFU.md/main/STFU.md -o ~/AGENTS.md
+# Blunt (terse + anti-sycophancy, DSPy-optimized + 5-agent cross-validated)
+STFU_URL=https://raw.githubusercontent.com/jqbit/STFU.md/main/STFU.blunt.md
 ```
 
-### Install all five at once
+### Install all 7 standard locations at once
 
 ```bash
-STFU_URL=https://raw.githubusercontent.com/jqbit/STFU.md/main/STFU.md
-for d in ~/.claude/CLAUDE.md ~/.gemini/GEMINI.md ~/.factory/AGENTS.md ~/.pi/agent/AGENTS.md ~/AGENTS.md; do
+# (uses $STFU_URL from above; default to STFU.md if unset)
+: ${STFU_URL:=https://raw.githubusercontent.com/jqbit/STFU.md/main/STFU.md}
+
+for d in ~/.claude/CLAUDE.md ~/.gemini/GEMINI.md ~/.codex/AGENTS.md \
+         ~/AGENTS.md ~/.config/opencode/AGENTS.md \
+         ~/.factory/AGENTS.md ~/.pi/agent/AGENTS.md; do
   mkdir -p "$(dirname "$d")" && curl -fsSL "$STFU_URL" -o "$d"
 done
+```
+
+### Hermes (append, don't overwrite)
+
+```bash
+mkdir -p ~/.hermes/memories
+# Get current memory (preserves any user notes)
+EXISTING=$(cat ~/.hermes/memories/MEMORY.md 2>/dev/null)
+# Append STFU as new §-section
+{
+  echo "$EXISTING"
+  [ -n "$EXISTING" ] && echo "§"
+  curl -fsSL "$STFU_URL"
+} > ~/.hermes/memories/MEMORY.md
 ```
 
 ## Per-agent notes
@@ -77,16 +93,19 @@ Then `cursor-agent -p "your prompt"` will produce STFU.md-compliant output.
 
 ## Verification command
 
-After deploying, sanity-check that every file carries the STFU.md prompt:
+After deploying, sanity-check that every file carries the STFU prompt:
 
 ```bash
-for p in ~/.claude/CLAUDE.md ~/.gemini/GEMINI.md \
-         ~/.factory/AGENTS.md ~/.pi/agent/AGENTS.md ~/AGENTS.md; do
-  grep -q "^# STFU" "$p" && echo "✓ $p" || echo "✗ $p"
+for p in ~/.claude/CLAUDE.md ~/.gemini/GEMINI.md ~/.codex/AGENTS.md \
+         ~/AGENTS.md ~/.config/opencode/AGENTS.md \
+         ~/.factory/AGENTS.md ~/.pi/agent/AGENTS.md; do
+  [ -f "$p" ] && grep -q "^# STFU" "$p" && echo "✓ $p" || echo "✗ $p"
 done
+# Hermes (different format — looks for the STFU.blunt mode marker in MEMORY.md)
+grep -q "STFU.blunt mode" ~/.hermes/memories/MEMORY.md 2>/dev/null && echo "✓ ~/.hermes/memories/MEMORY.md" || echo "✗ ~/.hermes/memories/MEMORY.md"
 ```
 
-You should see five `✓` lines.
+You should see ✓ for each of the locations you actually installed to.
 
 ## Smoke test (recommended)
 
