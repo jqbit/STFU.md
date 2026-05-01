@@ -76,9 +76,28 @@ v0.14.3 controlled ablation (Claude Sonnet 4.6, n=12 single-turn + 24 8-turn cal
 
 See [`data/benchmarks.md`](data/benchmarks.md) and [`data/changelog.md`](data/changelog.md) for details.
 
-### STFU.blunt.md ablation (v0.15.0)
+### STFU.blunt.md DSPy optimization (v0.17.0)
 
-Two-iteration design (V1 → V2) on the same Sonnet 4.6 harness, n=6 sycophancy probes + n=2 multi-turn override pairs + n=4 plain-coding sanity prompts per condition. V1 failed only on override compliance (model refused to comply when user explicitly overrode); V2 added a primacy-placed `## Override` section with explicit triggers ("anyway", "I'm overriding", "let's just X", restated preferences). V2 results vs base STFU and no-prompt control:
+Empirical instruction evolution via [DSPy](https://github.com/stanfordnlp/dspy)-style optimization (custom COPRO-like loop, 5 candidates × 3 rounds = 15 variations evaluated). Probe set: 25 train + 10 held-out + 6 chat-sanity. Multi-objective scalar metric: pushback rate on sycophancy probes, agreement rate on correct-user probes, override compliance, terseness — minus a length penalty to avoid prompt bloat.
+
+Results (Sonnet 4.6):
+
+| metric | shipped (v0.15.0) | DSPy-optimized (v0.17.0) | Δ |
+|---|---:|---:|---|
+| prompt size (bytes) | 1843 | **1479** | **−20%** |
+| training-set score | 0.743 | **0.819** | **+10%** |
+| held-out (n=10) score | 0.471 | **0.658** | **+0.118 (p=0.15)** |
+| chat-probe mean prose words (n=6) | 17.7 | **14.3** | **−19%** |
+
+The optimizer discovered a new `Confirm ("right?/correct?/r?") → Yes/No first` shape rule that fixed the v0.15.0 failure mode of over-hedging on legitimately-correct user statements (e.g., "Hash maps offer O(1) average-case lookups, right?"). New "Never open with validation" Style line. Statistical significance caveat: n=10 held-out makes p=0.15 expected for real effects; improvement is **directional and consistent** across all three test sets.
+
+For the **regular `STFU.md`** prompt: DSPy optimization across the same loop **found no improvement** — all 15 candidate variations scored lower than the shipped v0.16.0 seed on training (0.540). The current STFU.md is at a local optimum on this metric. Honest result, kept as-is.
+
+See [`data/changelog.md` §[0.17.0]](data/changelog.md) for full methodology, per-probe breakdown, and limitations.
+
+### STFU.blunt.md V1→V2 manual ablation (v0.15.0 — historical)
+
+Earlier two-iteration design (V1→V2) before DSPy optimization. Results vs base STFU and no-prompt control:
 
 | metric | control | STFU | BLUNT V2 |
 |---|---:|---:|---:|
@@ -88,7 +107,7 @@ Two-iteration design (V1 → V2) on the same Sonnet 4.6 harness, n=6 sycophancy 
 | plain-coding prose words (terseness regression) | 62.2 | 16.0 | 17.2 |
 | correct-user agreement rate (sanity) | 1/2 | 1/2 | 1/2 |
 
-V2 passed all five pre-committed criteria. Shipping as `STFU.blunt.md` v0.15.0.
+V2 passed all five pre-committed criteria and shipped as v0.15.0. v0.17.0 supersedes via DSPy-optimized prompt.
 
 ## Example outputs
 
