@@ -10,20 +10,25 @@ import sys
 from concurrent.futures import ThreadPoolExecutor, as_completed
 from pathlib import Path
 
-sys.path.insert(0, "/tmp/stfu-test/scripts")
 from dspy_optimize import (
     run_claude, score_stfu_probe, score_blunt_probe, evaluate_prompt
 )
 
-OUTDIR = "/tmp/stfu-test/dspy"
+ROOT = Path(__file__).resolve().parents[2]
+OUTDIR = os.environ.get("STFU_DSPY_DIR", "/tmp/stfu-test/dspy")
 
 
 def main():
-    splits = json.loads(Path(f"{OUTDIR}/probe_splits.json").read_text())
+    splits_path = Path(f"{OUTDIR}/probe_splits.json")
+    if not splits_path.exists():
+        splits_path = Path(f"{OUTDIR}/probe_splits_10x.json")
+    if not splits_path.exists():
+        raise SystemExit(f"Missing {splits_path}. Run bench/dspy/expanded_corpus.py first.")
+    splits = json.loads(splits_path.read_text())
 
     # Read all 4 prompts: STFU shipped, STFU optimized, BLUNT shipped, BLUNT optimized
-    stfu_shipped = Path("/tmp/stfu-test/prompts/old-stfu-v016.md").read_text()
-    blunt_shipped = Path("/tmp/stfu-test/prompts/old-stfu-blunt-v015.md").read_text()
+    stfu_shipped = (ROOT / "STFU.md").read_text()
+    blunt_shipped = (ROOT / "STFU.blunt.md").read_text()
 
     stfu_opt_path = Path(f"{OUTDIR}/stfu_best.md")
     blunt_opt_path = Path(f"{OUTDIR}/blunt_best.md")

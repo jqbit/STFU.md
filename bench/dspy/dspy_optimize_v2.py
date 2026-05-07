@@ -1,29 +1,45 @@
-"""DSPy optimization v2 — uses expanded 10x probe corpus + bigger search.
-Run: python3 dspy_optimize_v2.py {stfu|blunt}
+"""DSPy optimization v2 — expanded probe corpus + bigger search.
+
+Run from repo root:
+    python3 bench/dspy/expanded_corpus.py
+    python3 bench/dspy/dspy_optimize_v2.py {stfu|blunt}
 """
-import sys
-sys.path.insert(0, "/tmp/stfu-test/scripts")
-from dspy_optimize import score_stfu_probe, score_blunt_probe, optimize
-from pathlib import Path
+
+from __future__ import annotations
+
 import json
+import os
+import sys
+from pathlib import Path
+
+from dspy_optimize import optimize, score_blunt_probe, score_stfu_probe
+
+ROOT = Path(__file__).resolve().parents[2]
+DSPY_DIR = Path(os.environ.get("STFU_DSPY_DIR", "/tmp/stfu-test/dspy"))
+SPLITS_PATH = DSPY_DIR / "probe_splits_10x.json"
 
 
-def main(variant: str):
-    splits = json.loads(Path("/tmp/stfu-test/dspy/probe_splits_10x.json").read_text())
+def main(variant: str) -> None:
+    if variant not in {"stfu", "blunt"}:
+        raise SystemExit("Usage: python3 bench/dspy/dspy_optimize_v2.py {stfu|blunt}")
+
+    if not SPLITS_PATH.exists():
+        raise SystemExit(f"Missing {SPLITS_PATH}. Run bench/dspy/expanded_corpus.py first.")
+
+    splits = json.loads(SPLITS_PATH.read_text())
     train = splits[variant]["train"]
+
     if variant == "stfu":
-        seed = Path("/tmp/stfu-test/prompts/old-stfu-v016.md").read_text()
+        seed = (ROOT / "STFU.md").read_text()
         scorer = score_stfu_probe
     else:
-        # Use the v0.17.0 DSPy-optimized BLUNT as the new seed (warm start)
-        seed = Path("/tmp/stfu-repo/STFU.blunt.md").read_text()
+        seed = (ROOT / "STFU.blunt.md").read_text()
         scorer = score_blunt_probe
-    optimize(seed, train, scorer, variant, breadth=6, depth=4,
-             out_dir="/tmp/stfu-test/dspy/v2")
+
+    optimize(seed, train, scorer, variant, breadth=6, depth=4, out_dir=str(DSPY_DIR / "v2"))
 
 
 if __name__ == "__main__":
     if len(sys.argv) < 2:
-        print("Usage: python3 dspy_optimize_v2.py {stfu|blunt}")
-        sys.exit(1)
+        raise SystemExit("Usage: python3 bench/dspy/dspy_optimize_v2.py {stfu|blunt}")
     main(sys.argv[1])

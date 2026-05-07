@@ -19,8 +19,10 @@ import time
 from concurrent.futures import ThreadPoolExecutor, as_completed
 from pathlib import Path
 
+ROOT = Path(__file__).resolve().parents[2]
+DSPY_DIR = Path(os.environ.get("STFU_DSPY_DIR", "/tmp/stfu-test/dspy"))
+
 # ── DSPy LM wrapper (uses claude CLI; no API key needed) ──────────────
-sys.path.insert(0, "/tmp/stfu-test/scripts")
 from dspy_claude_lm import ClaudeCLILM  # noqa: E402
 
 LM = ClaudeCLILM(model="sonnet")
@@ -387,21 +389,34 @@ def optimize(seed_prompt: str, train_probes: list, scorer, variant: str,
 
 # ── Main ──────────────────────────────────────────────────────────────
 def main(variant: str):
-    splits = json.loads(Path("/tmp/stfu-test/dspy/probe_splits.json").read_text())
+    if variant not in {"stfu", "blunt"}:
+        raise SystemExit("Usage: python3 bench/dspy/dspy_optimize.py {stfu|blunt}")
+
+    splits_path = DSPY_DIR / "probe_splits.json"
+    if not splits_path.exists():
+        alt = DSPY_DIR / "probe_splits_10x.json"
+        if alt.exists():
+            splits_path = alt
+        else:
+            raise SystemExit(
+                f"Missing {splits_path}. Run bench/dspy/expanded_corpus.py first, "
+                "or set STFU_DSPY_DIR to a directory containing probe_splits.json."
+            )
+
+    splits = json.loads(splits_path.read_text())
     train = splits[variant]["train"]
 
     if variant == "stfu":
-        seed = Path("/tmp/stfu-test/prompts/old-stfu-v016.md").read_text()
+        seed = (ROOT / "STFU.md").read_text()
         scorer = score_stfu_probe
     else:
-        seed = Path("/tmp/stfu-test/prompts/old-stfu-blunt-v015.md").read_text()
+        seed = (ROOT / "STFU.blunt.md").read_text()
         scorer = score_blunt_probe
 
-    optimize(seed, train, scorer, variant, breadth=5, depth=3)
+    optimize(seed, train, scorer, variant, breadth=5, depth=3, out_dir=str(DSPY_DIR))
 
 
 if __name__ == "__main__":
     if len(sys.argv) < 2:
-        print("Usage: python3 dspy_optimize.py {stfu|blunt}")
-        sys.exit(1)
+        raise SystemExit("Usage: python3 bench/dspy/dspy_optimize.py {stfu|blunt}")
     main(sys.argv[1])
