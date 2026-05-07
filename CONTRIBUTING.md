@@ -60,15 +60,16 @@ Please include:
 
 ## Running checks
 
-For docs-only changes, just make sure links still work.
-
-For benchmark/chart changes, run:
+CI runs the lightweight checks below on pushes and pull requests. Run them locally before opening a PR:
 
 ```bash
 node --check bench/analyze.js
 node --check bench/make-charts.js
 python3 -m json.tool data/benchmarks-summary.json >/dev/null
+python3 -m json.tool data/benchmarks-matrix.json >/dev/null
 python3 -m json.tool data/visualizations/charts.json >/dev/null
+python3 -m py_compile bench/dspy/*.py bench/check-md-links.py
+python3 bench/check-md-links.py
 ```
 
 ## Issues

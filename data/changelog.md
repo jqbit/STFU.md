@@ -95,7 +95,7 @@ Honest framing: not every pairwise comparison hits p<0.05, but cross-model avera
 
 DSPy round-2 optimization + cross-model held-out: ~2,800 LM calls + ~800 judge calls = ~3,600 calls × ~$0.02 ≈ **~$70 this round**. Cumulative session: ~$100 across ~5,000 calls.
 
-Test rig + optimizer code preserved at `/tmp/stfu-test/scripts/dspy_*.py` and `/tmp/stfu-test/scripts/cross_model_*.py`.
+Test rig + optimizer code now lives in [`bench/dspy/`](../bench/dspy/); generated outputs are recreated under `/tmp/stfu-test/dspy/`.
 
 ---
 
@@ -187,7 +187,7 @@ Chat-probe sanity (n=6, never in training):
 
 DSPy-style optimization run: ~600 LM calls + ~250 judge calls = ~850 calls × ~$0.02 ≈ ~$17. Total session cost (cumulative across all benchmarks): ~$8 + $17 ≈ ~$25 across 1500+ calls.
 
-Test rig + optimizer code preserved at `/tmp/stfu-test/scripts/dspy_*.py`.
+Test rig + optimizer code now lives in [`bench/dspy/`](../bench/dspy/); generated outputs are recreated under `/tmp/stfu-test/dspy/`.
 
 ---
 
@@ -263,7 +263,7 @@ V2 PASSED all 5 criteria. No V3/V4 needed (user-capped at 4 iterations max; pre-
 
 This benchmark differs from v0.13.1's 5-agent multi-harness sweep — same model (Sonnet 4.6) across all conditions, paired-by-prompt design. n=6 sycophancy probes is small; pass criteria like `≥4/6` are noisy. LLM-as-judge introduces evaluation noise (same model judging itself); per-probe spot-checks confirmed verdicts on close calls. Real-world subtle sycophancy may not be captured by the obvious-flaw probes used here.
 
-Total bench cost: ~$3.87 across 128 calls (V1: 78 calls + V2: 26 calls + judge: 24 calls). Test rig at `/tmp/stfu-test/scripts/`.
+Total bench cost: ~$3.87 across 128 calls (V1: 78 calls + V2: 26 calls + judge: 24 calls). Historical scratch outputs were under `/tmp/stfu-test/`; maintained bench code is in [`bench/`](../bench/).
 
 ---
 
@@ -294,7 +294,7 @@ Controlled ablation on Claude Sonnet 4.6 (n=12 single-turn × 4 conditions = 48 
 - Templates may still help in deployments that *only* see well-specified prompts; the ablation above tested mixed-shape coverage.
 
 ### Methodology note
-This was a single-model controlled A/B (Claude Sonnet 4.6, paired by prompt). Earlier benchmarks (v0.13.1, see §[0.13.1] below) used a 5-agent multi-harness sweep with different methodology. The two are complementary, not directly comparable. Test rig kept at `/tmp/stfu-test/scripts/` for re-runs.
+This was a single-model controlled A/B (Claude Sonnet 4.6, paired by prompt). Earlier benchmarks (v0.13.1, see §[0.13.1] below) used a 5-agent multi-harness sweep with different methodology. The two are complementary, not directly comparable. Historical scratch outputs were under `/tmp/stfu-test/`; maintained bench code is in [`bench/`](../bench/).
 
 ### V1 → V4 ablation (the path to v0.14.3)
 
@@ -327,7 +327,7 @@ The v0.14.3 release came out of a 4-variant comparison. Each variant was run aga
 - **V2** was research-correct (Anthropic best practices: examples > rules; positive over negative; role + recency placement) but the empirical compression cost was too steep (−41% vs control vs V1's −78%). The structural improvements didn't translate into compression on this model. The original premise — that V1 "doesn't follow instructions" — was empirically refuted by every benchmark V1 was in.
 - **V3** correctly landed between V1 and V2, but the 60% reduction missed the 70–80% target band and the added complexity (extra examples, anchor sentence, dual-rule structure) didn't earn its tokens against a single-section deletion of V1.
 
-**Total benchmark cost across all variants:** ~$2.70 USD across 159 API calls (Sonnet 4.6 standard tier). The full test rig (parallel xargs runners, paired t-test analysis script, decay regression) is preserved at `/tmp/stfu-test/scripts/` for future re-runs.
+**Total benchmark cost across all variants:** ~$2.70 USD across 159 API calls (Sonnet 4.6 standard tier). Historical scratch outputs were under `/tmp/stfu-test/`; maintained bench code is in [`bench/`](../bench/).
 
 ---
 

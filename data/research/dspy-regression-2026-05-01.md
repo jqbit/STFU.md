@@ -40,13 +40,7 @@ Result directory:
 /tmp/stfu-test/results-full-dspy/
 ```
 
-Scripts:
-
-```text
-/tmp/stfu-test/scripts/run-full-dspy-regression.sh
-/tmp/stfu-test/scripts/judge-full-dspy-regression.sh
-/tmp/stfu-test/scripts/analyze-full-dspy-regression.py
-```
+Historical scratch scripts for this run were under `/tmp/stfu-test/scripts/` and are not required for the current repo. Maintained DSPy/cross-model harness code now lives in [`../../bench/dspy/`](../../bench/dspy/).
 
 ## Single-turn coding probes
 

@@ -332,7 +332,7 @@ def make_splits(seed=42, train_frac=0.7):
 
 if __name__ == "__main__":
     splits = make_splits()
-    out = "/tmp/stfu-test/dspy/probe_splits_10x.json"
+    out = os.path.join(os.environ.get("STFU_DSPY_DIR", "/tmp/stfu-test/dspy"), "probe_splits_10x.json")
     os.makedirs(os.path.dirname(out), exist_ok=True)
     with open(out, "w") as f:
         json.dump(splits, f, indent=2)

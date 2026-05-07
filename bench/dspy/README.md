@@ -23,6 +23,9 @@ Custom DSPy-style instruction-evolution loop for optimizing STFU.md and STFU.blu
 ## Reproduce
 
 ```bash
+# Optional: override scratch output location
+export STFU_DSPY_DIR=/tmp/stfu-test/dspy
+
 # 1. Install
 python3 -m pip install --user dspy
 
@@ -31,6 +34,7 @@ python3 bench/dspy/expanded_corpus.py
 # → /tmp/stfu-test/dspy/probe_splits_10x.json
 
 # 3. Run optimization on each variant (~30-90 min wall time, ~1500 calls each)
+# Uses the repository's current STFU.md / STFU.blunt.md as seeds.
 python3 bench/dspy/dspy_optimize_v2.py stfu
 python3 bench/dspy/dspy_optimize_v2.py blunt
 # → /tmp/stfu-test/dspy/v2/{stfu,blunt}_best.md

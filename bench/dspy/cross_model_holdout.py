@@ -16,8 +16,10 @@ import time
 from concurrent.futures import ThreadPoolExecutor, as_completed
 from pathlib import Path
 
-R = Path("/tmp/stfu-test/dspy/cross")
-R.mkdir(exist_ok=True)
+ROOT = Path(__file__).resolve().parents[2]
+DSPY_DIR = Path(os.environ.get("STFU_DSPY_DIR", "/tmp/stfu-test/dspy"))
+R = DSPY_DIR / "cross"
+R.mkdir(parents=True, exist_ok=True)
 
 # ── Agent runners — uniform interface ────────────────────────────────
 def run_claude(system: str, user: str) -> str:
@@ -241,20 +243,27 @@ def run_one_agent_probe(agent: str, prompt_label: str, system_prompt: str,
     }
 
 
+def read_optional(path: Path) -> str | None:
+    return path.read_text() if path.exists() else None
+
+
 def main(variant: str):
-    splits = json.loads(Path("/tmp/stfu-test/dspy/probe_splits_10x.json").read_text())
+    splits_path = DSPY_DIR / "probe_splits_10x.json"
+    if not splits_path.exists():
+        raise SystemExit(f"Missing {splits_path}. Run bench/dspy/expanded_corpus.py first.")
+
+    splits = json.loads(splits_path.read_text())
     test = splits[variant]["test"]
 
     if variant == "stfu":
         prompts = {
-            "shipped": Path("/tmp/stfu-test/prompts/old-stfu-v016.md").read_text(),
-            "optimized": Path("/tmp/stfu-test/dspy/v2/stfu_best.md").read_text() if Path("/tmp/stfu-test/dspy/v2/stfu_best.md").exists() else None,
+            "shipped": (ROOT / "STFU.md").read_text(),
+            "optimized": read_optional(DSPY_DIR / "v2" / "stfu_best.md"),
         }
     else:
         prompts = {
-            "shipped": Path("/tmp/stfu-test/prompts/old-stfu-blunt-v015.md").read_text(),
-            "v017": Path("/tmp/stfu-repo/STFU.blunt.md").read_text(),
-            "optimized": Path("/tmp/stfu-test/dspy/v2/blunt_best.md").read_text() if Path("/tmp/stfu-test/dspy/v2/blunt_best.md").exists() else None,
+            "shipped": (ROOT / "STFU.blunt.md").read_text(),
+            "optimized": read_optional(DSPY_DIR / "v2" / "blunt_best.md"),
         }
     prompts = {k: v for k, v in prompts.items() if v}
 

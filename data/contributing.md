@@ -1,54 +1,64 @@
 # Contributing to STFU.md
 
-Thanks for thinking about contributing. The bar is low — STFU.md is a single Markdown file and a benchmark harness; any concrete improvement is welcome.
+See [`../CONTRIBUTING.md`](../CONTRIBUTING.md) for the current contributor guide. This note adds benchmark-specific guidance for prompt changes.
 
-## What kinds of contributions land fast
+## What lands fastest
 
-1. **Agent compatibility reports.** Tested STFU.md on a CLI that's not in the supported-9 list? Open an issue with the [agent-compatibility template](../.github/ISSUE_TEMPLATE/agent-compatibility.md). Even "doesn't work" reports are valuable — they reveal harness-level constraints we don't know about.
+1. **Agent/app compatibility reports** — include agent name, version, install location, prompt used, actual output, and expected output.
+2. **Bug reports** — include the exact user prompt, agent/app, expected behavior, and actual behavior.
+3. **Prompt edits** — keep them surgical, explain the failure mode, and include before/after examples.
+4. **Benchmark results** — include enough setup detail for someone else to reproduce the run.
 
-2. **Bug reports.** A specific prompt where STFU.md v0.13 produces non-compliant or wrong output? File via the [bug template](../.github/ISSUE_TEMPLATE/bug.md) with the agent name, prompt, expected output, and actual output.
+## Changing `STFU.md` or `STFU.blunt.md`
 
-3. **Rule-addition ideas.** Have a STFU.md edit in mind for v0.14+? File via the [idea template](../.github/ISSUE_TEMPLATE/idea.md). The best ideas come with a predicted bench impact.
+Prompt changes should preserve the project goal:
 
-4. **PRs to STFU.md.** Surgical edits with bench data attached land fastest. See [`EVOLUTION.md`](./progression.md) §4-§5 for what's worked / what hasn't, so you don't repeat dead-ends.
+> Shorter output, same intelligence.
 
-## How to propose a STFU.md change
+For each prompt PR, include:
 
-1. Fork the repo and edit `STFU.md`.
-2. Bump the version line at the top (e.g. `(v0.13)` → `(v0.14)`).
-3. *Ideally*: re-run the bench against your change. The harness lives at `bench/` (see [`BENCHMARKS.md`](./benchmarks.md) §12 for layout). You don't strictly need to bench all 8 agents — even a 2-agent comparison (claude + the noisiest one for your change, e.g., cursor) is a useful signal.
-4. Open a PR with the [PR template](../.github/PULL_REQUEST_TEMPLATE.md) filled out — bench delta + risk-of-regression notes.
+- problem fixed
+- changed file (`STFU.md` or `STFU.blunt.md`)
+- before/after examples
+- agent/app tested
+- risk of regression
+- benchmark result, if available
 
-## Running the benchmark
+Small docs or install-path fixes do not need a full benchmark.
 
-The benchmark harness is included for reproducibility. From the repo root:
+## Lightweight checks
+
+Run the same checks as CI:
 
 ```bash
-# 1. Install tiktoken into a venv
-python3 -m venv bench/.venv
-bench/.venv/bin/pip install tiktoken
-
-# 2. Deploy your edited STFU.md to all agents
-#    (use the install commands from README.md or AGENT-LOCATIONS.md)
-
-# 3. Run one agent (sequentially, N=3 trials, ~3-5 min)
-BENCH_DIR=$(pwd)/bench/v1.14 TRIALS=3 bash bench/scripts/run_agent.sh claude
-
-# 4. Extract metrics
-BENCH_DIR=$(pwd)/bench/v1.14 bench/.venv/bin/python bench/scripts/extract_metrics.py
-
-# 5. Compare to baseline (v1, the no-STFU.md bench)
-LABEL_A="v1 (no STFU.md)" LABEL_B="v1.14 (STFU.md v0.14)" \
-  bench/.venv/bin/python bench/scripts/compare.py bench/v1 bench/v1.14 \
-  > bench/v1.14/comparison.md
+node --check bench/analyze.js
+node --check bench/make-charts.js
+python3 -m json.tool data/benchmarks-summary.json >/dev/null
+python3 -m json.tool data/benchmarks-matrix.json >/dev/null
+python3 -m json.tool data/visualizations/charts.json >/dev/null
+python3 -m py_compile bench/dspy/*.py bench/check-md-links.py
+python3 bench/check-md-links.py
 ```
 
-For 8-agent parallel runs, see the launcher snippets in `EVOLUTION.md` §10.
+## Benchmark commands
 
-## Code of conduct
+Historical v0.14 harness:
 
-Be a senior engineer briefing another senior engineer. (Drink your own champagne.)
+```bash
+cd bench
+N_TRIALS=3 bash v0.14-bench.sh
+node analyze.js
+node make-charts.js
+```
 
-## License
+DSPy/cross-model harness:
 
-By contributing, you agree your contributions are licensed under the [MIT License](../LICENSE).
+```bash
+python3 -m pip install --user dspy
+python3 bench/dspy/expanded_corpus.py
+python3 bench/dspy/dspy_optimize_v2.py {stfu|blunt}
+python3 bench/dspy/cross_model_holdout.py {stfu|blunt}
+python3 bench/dspy/cross_model_analyze.py {stfu|blunt}
+```
+
+See [`methodology.md`](methodology.md), [`benchmarks.md`](benchmarks.md), and [`dspy-cross-model-results.md`](dspy-cross-model-results.md) for caveats and full tables.

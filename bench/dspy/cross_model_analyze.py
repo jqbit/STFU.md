@@ -1,6 +1,7 @@
 """Analyze cross-model held-out + independent-judge results."""
 import json
 import math
+import os
 import re
 import subprocess
 import sys
@@ -8,8 +9,7 @@ from pathlib import Path
 from concurrent.futures import ThreadPoolExecutor, as_completed
 from collections import defaultdict
 
-R = Path("/tmp/stfu-test/dspy/cross")
-sys.path.insert(0, "/tmp/stfu-test/scripts")
+R = Path(os.environ.get("STFU_DSPY_DIR", "/tmp/stfu-test/dspy")) / "cross"
 from cross_model_holdout import judge_pushback_codex, judge_informative_codex
 
 

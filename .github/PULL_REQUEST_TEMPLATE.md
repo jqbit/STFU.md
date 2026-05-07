@@ -1,29 +1,31 @@
 ## What this PR changes
 
-Brief description of the change to `STFU.md`, `STFU.blunt.md`, or other files.
+Brief description of the change to `STFU.md`, `STFU.blunt.md`, docs, or benchmark files.
 
 ## Why
 
-Which prompt-shape, agent, or behaviour this addresses. Reference `BENCHMARKS.md` rows where applicable.
+What failure mode, install path, agent behavior, or documentation gap this addresses. Reference `data/benchmarks.md`, `data/dspy-cross-model-results.md`, or `data/changelog.md` where applicable.
 
 ## Bench impact
 
-If you ran the benchmark with this change, paste the per-agent delta:
+If this changes `STFU.md` or `STFU.blunt.md`, include benchmark or manual before/after evidence:
 
-| agent | STFU.md v0.13 (current) | this PR | Δ |
-|---|---:|---:|---:|
+| agent/app | current | this PR | Δ / verdict |
+|---|---:|---:|---|
 | claude | … | … | … |
 | codex | … | … | … |
 | … | … | … | … |
 
-If you didn't run the bench, that's fine — flag it and a maintainer will run it.
+If you did not run a benchmark, say so and explain why.
+
+Docs-only / CI-only PRs can write `N/A — no prompt behavior changed`.
 
 ## Verification
 
-- [ ] `STFU.md` deploys cleanly to documented coding-agent paths (per `data/agent-locations.md`)
-- [ ] Smoke test passes (`claude -p "What's the git command to undo the last commit but keep changes staged?"` returns the bare command)
-- [ ] No regression on a previously-passing prompt (manual spot check is fine)
+- [ ] Lightweight checks pass (`node --check`, JSON validation, Python compile, Markdown links)
+- [ ] Prompt behavior smoke-tested if prompt files changed
+- [ ] Benchmark results or manual examples included if prompt behavior changed
 
 ## Risk of breaking other agents
 
-Which other agents/prompt-shapes might this rule affect? Anything you'd want extra eyes on?
+Which agents, apps, or prompt shapes might this affect? Anything that needs extra review?
